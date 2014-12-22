@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="css/styles.css" />
         <title>Appy Cab</title>
     </head>
-    <body>
+    <body onload="onLoad();">
         <nav class="navbar navbar-inverse" role="navigation">
           <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -26,7 +26,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Exit</a></li>
+                <li><a href="#" class="exitApp">Exit</a></li>
               </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
@@ -36,5 +36,16 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+        function onLoad() {
+            document.addEventListener("deviceready", onDeviceReady, true);
+        }
+
+        $(".exitApp").on("click", function(e) {
+            e.preventDefault();
+            navigator.app.exitApp();
+        });
+        
+        </script>
     </body>
 </html>
