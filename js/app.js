@@ -34,14 +34,9 @@
 			});
 	});
 
-	app.controller('HomeController', function($scope, $rootScope, $location, localStorageService) {
+	app.controller('HomeController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
 		
-		if(localStorageService.get('fname')!==null 
-			&& localStorageService.get('lname')!==null 
-			&& localStorageService.get('email')!==null 
-			&& localStorageService.get('mobile')!==null 
-			&& localStorageService.get('address')!==null) {
-
+		if(AppyCabService.hasDetails()) {
 			$location.path('/choose');
 		} else {
 			$location.path('/details');
@@ -49,10 +44,10 @@
 
 	});
 
-	app.controller('DetailsController', function($scope, $rootScope, $location, localStorageService) {
+	app.controller('DetailsController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
 		$rootScope.page_title="Welcome!";
 		$rootScope.backButton = false;
-
+		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$scope.client = {
 			fname:localStorageService.get('fname'),
 			lname:localStorageService.get('lname'),
@@ -73,9 +68,10 @@
 		};
 	});
 
-	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService) {
+	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Choose";
-		$rootScope.backButton = true;
+		$rootScope.backButton = AppyCabService.hasDetails() ? false:true;
 		$rootScope.pageClass='page';
 		$rootScope.back = function() {
 			$rootScope.pageClass='page-back';
@@ -84,7 +80,8 @@
 		};
 	});
 
-	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, localStorageService) {
+	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Take me Home";
 		$rootScope.backButton = true;
 		$rootScope.pageClass='page';
@@ -95,7 +92,8 @@
 		};
 	});
 
-	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, localStorageService) {
+	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Pick me up from here";
 		$rootScope.backButton = true;
 		$rootScope.pageClass='page';
@@ -106,7 +104,8 @@
 		};
 	});
 
-	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, localStorageService) {
+	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Book a Cab";
 		$rootScope.backButton = true;
 		$rootScope.pageClass='page';
@@ -117,4 +116,23 @@
 		};
 	});
 
+	
+	app.factory("AppyCabService", function(localStorageService) {
+		return {
+			hasDetails: function() {
+				if(localStorageService.get('fname')!==null 
+					&& localStorageService.get('lname')!==null 
+					&& localStorageService.get('email')!==null 
+					&& localStorageService.get('mobile')!==null 
+					&& localStorageService.get('address')!==null) {
+
+					return true;
+				} else {
+					return false;
+				}
+			}
+		};
+	});
+
 })();
+
