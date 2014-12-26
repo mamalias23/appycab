@@ -10,56 +10,81 @@
     </div>
 </div>
 
-<div class="row" style="margin-top:15px">
-    <div class="col-md-6">
-        <b>First Name:</b>
-    </div>
-    <div class="col-md-6">
-        <input type="text" name="fname" class="form-control" />
+<form angular-validator-submit="process()" name="myForm" class="form-horizontal" novalidate angular-validator>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">First Name:</label>
+    <div class="col-sm-6">
+        <input type = "text"
+            name = "fname"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "client.fname"
+            required-message="'This field is required.'"
+            required>
     </div>
 </div>
 
-<div class="row" style="margin-top:15px">
-    <div class="col-md-6">
-        <b>Surname:</b>
-    </div>
-    <div class="col-md-6">
-        <input type="text" name="lname" class="form-control" />
-    </div>
-</div>
-
-<div class="row" style="margin-top:15px">
-    <div class="col-md-6">
-        <b>Email: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></b>
-    </div>
-    <div class="col-md-6">
-        <input type="email" name="email" class="form-control" />
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Surname:</label>
+    <div class="col-sm-6">
+        <input type = "text"
+            name = "lname"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "client.lname"
+            required-message="'This field is required.'"
+            required>
     </div>
 </div>
 
-<div class="row" style="margin-top:15px">
-    <div class="col-md-6">
-        <b>Mobile No.: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></b>
-    </div>
-    <div class="col-md-6">
-        <input type="text" name="mobile" class="form-control" />
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Email: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
+    <div class="col-sm-6">
+        <input type = "email"
+            name = "email"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "client.email"
+            invalid-message="'invalid email address'"
+            required-message="'This field is required.'"
+            required>
     </div>
 </div>
 
-<div class="row" style="margin-top:15px">
-    <div class="col-md-6">
-        <b>Home Address: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></b>
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Mobile No.: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
+    <div class="col-sm-6">
+        <input type = "text"
+            name = "mobile"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "client.mobile"
+            required-message="'This field is required.'"
+            required>
     </div>
-    <div class="col-md-6">
-        <input type="text" name="address" class="form-control" />
+</div>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Home Address: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
+    <div class="col-sm-6">
+        <input type = "text"
+            name = "address"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "client.address"
+            required-message="'This field is required.'"
+            required>
     </div>
 </div>
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-12" style="text-align:center">
-        <button type="submit" class="btn btn-custom btn-lg" ng-click="process()">Continue <i class="fa fa-arrow-circle-o-right"></i></button>
+        <button type="submit" class="btn btn-custom btn-lg">Continue <i class="fa fa-arrow-circle-o-right"></i></button>
     </div>
 </div>
+
+</form>
 
 <div class="row" style="margin-top:15px">
 </div>
