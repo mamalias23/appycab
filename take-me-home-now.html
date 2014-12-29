@@ -18,8 +18,12 @@
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-12">
-        <map center="{{ client.address }}">
-          <marker position="{{ client.address }}" draggable="true" on-mouseup="markerDropped();"></marker>
+        <map center="{{ client.address }}" on-dblclick="changedPosition(event);" disable-double-click-zoom="true">
+          <marker 
+          position="{{ client.address }}" 
+          draggable="true"
+          on-dragend="markerDropped();"
+        ></marker>
         </map>
     </div>
 </div>

@@ -119,6 +119,11 @@
 		$scope.markerDropped = function() {
 			getFormattedAddress($scope.map.markers[0].getPosition());
 		}
+
+		$scope.changedPosition = function(event) {
+			$scope.map.markers[0].setPosition(event.latLng);
+			getFormattedAddress(event.latLng);
+		}
 	});
 
 	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
