@@ -66,6 +66,30 @@
 
 			$location.path('/choose');
 		};
+
+		var getFormattedAddress = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      document.getElementById("client_address").value = responses[0].formatted_address;
+			    } else {
+			      alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		$scope.markerDropped = function() {
+			getFormattedAddress($scope.map.markers[0].getPosition());
+		}
+
+		$scope.changedPosition = function(event) {
+			$scope.map.markers[0].setPosition(event.latLng);
+			getFormattedAddress(event.latLng);
+		}
 	});
 
 	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {

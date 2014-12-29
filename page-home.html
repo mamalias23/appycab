@@ -79,6 +79,18 @@
 </div>
 
 <div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <map center="{{ client.address==null ? 'petersfield, uk':client.address }}" on-dblclick="changedPosition(event);" disable-double-click-zoom="true">
+          <marker 
+          position="{{ client.address==null ? 'petersfield, uk':client.address }}" 
+          draggable="true"
+          on-dragend="markerDropped();"
+        ></marker>
+        </map>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
     <div class="col-md-12" style="text-align:center">
         <button type="submit" class="btn btn-custom btn-lg">Continue <i class="fa fa-arrow-circle-o-right"></i></button>
     </div>
