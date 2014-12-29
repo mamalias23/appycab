@@ -54,6 +54,8 @@
 			email:localStorageService.get('email'),
 			mobile:localStorageService.get('mobile'),
 			address:localStorageService.get('address'),
+			lat:localStorageService.get('lat'),
+			lng:localStorageService.get('lng'),
 		};
 
 		$scope.process = function() {
@@ -63,6 +65,8 @@
 			localStorageService.set('email', $scope.client.email);
 			localStorageService.set('mobile', $scope.client.mobile);
 			localStorageService.set('address', $scope.client.address);
+			localStorageService.set('lat', $scope.client.lat);
+			localStorageService.set('lng', $scope.client.lng);
 
 			$location.path('/choose');
 		};
@@ -76,6 +80,9 @@
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
 			      document.getElementById("client_address").value = responses[0].formatted_address;
+			      $scope.client.lat = responses[0].geometry.location.lat();
+			      $scope.client.lng = responses[0].geometry.location.lng();
+			      $scope.client.address = responses[0].formatted_address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -123,6 +130,8 @@
 			email:localStorageService.get('email'),
 			mobile:localStorageService.get('mobile'),
 			address:localStorageService.get('address'),
+			lat:localStorageService.get('lat'),
+			lng:localStorageService.get('lng'),
 		};
 
 		var getFormattedAddress = function(pos) {
@@ -134,6 +143,9 @@
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
 			      document.getElementById("client_address").value = responses[0].formatted_address;
+			      $scope.client.lat = responses[0].geometry.location.lat();
+			      $scope.client.lng = responses[0].geometry.location.lng();
+			      $scope.client.address = responses[0].formatted_address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -182,7 +194,9 @@
 					&& localStorageService.get('lname')!==null 
 					&& localStorageService.get('email')!==null 
 					&& localStorageService.get('mobile')!==null 
-					&& localStorageService.get('address')!==null) {
+					&& localStorageService.get('address')!==null 
+					&& localStorageService.get('lat')!==null 
+					&& localStorageService.get('lng')!==null) {
 
 					return true;
 				} else {
