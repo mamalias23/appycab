@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('appycab', ['LocalStorageModule', 'ngRoute', 'ngAnimate', 'angularValidator']);
+	var app = angular.module('appycab', ['LocalStorageModule', 'ngRoute', 'ngAnimate', 'angularValidator', 'ngMap']);
 
 	app.config(function(localStorageServiceProvider, $routeProvider) {
 		localStorageServiceProvider
@@ -81,15 +81,44 @@
 	});
 
 	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Take me Home";
 		$rootScope.backButton = true;
 		$rootScope.pageClass='page';
+
 		$rootScope.back = function() {
 			$rootScope.pageClass='page-back';
 			$rootScope.backButton = false;
 			$location.path('/choose');
 		};
+
+		$scope.client = {
+			fname:localStorageService.get('fname'),
+			lname:localStorageService.get('lname'),
+			email:localStorageService.get('email'),
+			mobile:localStorageService.get('mobile'),
+			address:localStorageService.get('address'),
+		};
+
+		var getFormattedAddress = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      document.getElementById("client_address").value = responses[0].formatted_address;
+			    } else {
+			      alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		$scope.markerDropped = function() {
+			getFormattedAddress($scope.map.markers[0].getPosition());
+		}
 	});
 
 	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
