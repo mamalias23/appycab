@@ -36,13 +36,13 @@
   -o-transition: width 350ms;
   transition: width 350ms;
 
-  background: #fff;
+  background: #51a351;
   position: fixed;
   z-index: 10002;
   top: 0;
   left: 0;
   width: 100%;
-  height: 5px;
+  height: 8px;
   border-bottom-right-radius: 1px;
   border-top-right-radius: 1px;
 }
@@ -55,10 +55,10 @@
   top: 0;
   height: 2px;
   opacity: .45;
-  -moz-box-shadow: #fff 1px 0 6px 1px;
-  -ms-box-shadow: #fff 1px 0 6px 1px;
-  -webkit-box-shadow: #fff 1px 0 6px 1px;
-  box-shadow: #fff 1px 0 6px 1px;
+  -moz-box-shadow: #51a351 1px 0 6px 1px;
+  -ms-box-shadow: #51a351 1px 0 6px 1px;
+  -webkit-box-shadow: #51a351 1px 0 6px 1px;
+  box-shadow: #51a351 1px 0 6px 1px;
   -moz-border-radius: 100%;
   -webkit-border-radius: 100%;
   border-radius: 100%;
@@ -77,8 +77,8 @@
   height: 14px;
 
   border:  solid 2px transparent;
-  border-top-color:  #fff;
-  border-left-color: #fff;
+  border-top-color:  #51a351;
+  border-left-color: #51a351;
   border-radius: 10px;
 
   -webkit-animation: loading-bar-spinner 400ms linear infinite;
