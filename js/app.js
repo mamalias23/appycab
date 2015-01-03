@@ -139,6 +139,8 @@
 		$rootScope.backButton = true;
 		$rootScope.pageClass='page';
 
+		$rootScope.journey_id = '';
+
 		$rootScope.back = function() {
 			$rootScope.pageClass='page-back';
 			$rootScope.backButton = false;
@@ -186,8 +188,11 @@
 		}
 
 		$scope.process = function() {
-			//AppyCabService.takeMeHomeNowProcess($scope.client);
-			$location.path('/make-booking');
+			var journey = AppyCabService.takeMeHomeNowProcess($scope.client);
+			journey.success(function(response) {
+				$rootScope.journey_id = response.data.id;
+				$location.path('/make-booking');
+			});
 		}
 	});
 
@@ -227,9 +232,12 @@
 				className: 'ngdialog-theme-default'
 			}).then(function (value) {
 				console.log('Modal promise resolved. Value: ', value);
-				$location.path('/choose');
-				toaster.pop({type: 'success', title: "Booking Cancelled!", body:"You've successfully cancelled your cab"});
 
+				AppyCabService.cancelCab($rootScope.journey_id).success(function(response) {
+					$location.path('/choose');
+					toaster.pop({type: 'success', title: "Booking Cancelled!", body:"You've successfully cancelled your cab"});
+				});
+				
 			}, function (reason) {
 				console.log('Modal promise rejected. Reason: ', reason);
 			});
@@ -267,6 +275,22 @@
             };
         };
 
+        var sanitizeTakeMeHomeData = function (data) {
+            return {
+                app_id: $sanitize(data.app_id),
+                fname: $sanitize(data.fname),
+                lname: $sanitize(data.lname),
+                email: $sanitize(data.email),
+                mobile: $sanitize(data.mobile),
+                address: $sanitize(data.address),
+                lat: $sanitize(data.lat),
+                lng: $sanitize(data.lng),
+                pickup_date: $sanitize(data.pickup_date),
+                pickup_time: $sanitize(data.pickup_time),
+                _token: APP_TOKEN
+            };
+        };
+
 		return {
 			hasDetails: function() {
 				if(localStorageService.get('fname')!==null 
@@ -295,6 +319,7 @@
 				localStorageService.set('lng', data.lng);
 
 				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/details', sanitizeDetailsData(data));
+				//var detail = $http.post('http://localhost:8000/api/v1/details', sanitizeDetailsData(data));
 
 				return detail;
 			},
@@ -310,7 +335,15 @@
 				localStorageService.set('lat', data.lat);
 				localStorageService.set('lng', data.lng);
 
-				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/take-me-home-now', sanitizeDetailsData(data));
+				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/take-me-home-now', sanitizeTakeMeHomeData(data));
+				//var detail = $http.post('http://localhost:8000/api/v1/take-me-home-now', sanitizeDetailsData(data));
+
+				return detail;
+			},
+
+			cancelCab: function(journey_id) {
+
+				var detail = $http.get('http://appycab.co.uk/appycab-api/public/api/v1/cancel-cab/'+journey_id);
 
 				return detail;
 			}
