@@ -1,6 +1,6 @@
 (function() {
 
-	var app = angular.module('appycab', ['LocalStorageModule', 'ngRoute', 'ngAnimate', 'angularValidator', 'ngMap', 'ngSanitize', 'timer', 'angular-loading-bar', 'toaster']);
+	var app = angular.module('appycab', ['LocalStorageModule', 'ngRoute', 'ngAnimate', 'angularValidator', 'ngMap', 'ngSanitize', 'timer', 'angular-loading-bar', 'toaster', 'ngDialog']);
 
 
 	app.constant("APP_TOKEN", 'MpxMxk99c5YfQcuM9gAICKftTu1mFwqO')
@@ -213,18 +213,36 @@
 		};
 	});
 
-	app.controller('MakeBookingController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster) {
+	app.controller('MakeBookingController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster, ngDialog) {
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Booked";
 		$rootScope.backButton = false;
 		$rootScope.pageClass='page';
 
+		$scope.openConfirm = function () {
+			ngDialog.openConfirm({
+				template: 'modalDialogId',
+				className: 'ngdialog-theme-default'
+			}).then(function (value) {
+				console.log('Modal promise resolved. Value: ', value);
+			}, function (reason) {
+				console.log('Modal promise rejected. Reason: ', reason);
+			});
+		};
+
 		$scope.callbackTimer={};
+
 		$scope.callbackTimer.finished=function(){
+			ngDialog.close();
+
 			$location.path('/choose');
+
 			toaster.pop({type: 'success', title: "Booked!", body:"You've successfully booked a cab"});
+			
 	        $scope.$apply();
 	    };
+
+
 	});
 
 	
