@@ -1,6 +1,6 @@
 (function() {
 
-	var app = angular.module('appycab', ['LocalStorageModule', 'ngRoute', 'ngAnimate', 'angularValidator', 'ngMap', 'ngSanitize', 'timer', 'angular-loading-bar', 'toaster', 'ngDialog']);
+	var app = angular.module('appycab', ['LocalStorageModule', 'ngRoute', 'ngAnimate', 'angularValidator', 'ngMap', 'ngSanitize', 'timer', 'angular-loading-bar', 'toaster', 'ngDialog', 'angular-datepicker']);
 
 
 	app.constant("APP_TOKEN", 'MpxMxk99c5YfQcuM9gAICKftTu1mFwqO')
@@ -132,7 +132,7 @@
 		};
 	});
 
-	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService) {
 
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Take me Home";
@@ -154,6 +154,8 @@
 			address:localStorageService.get('address'),
 			lat:localStorageService.get('lat'),
 			lng:localStorageService.get('lng'),
+			pickup_date:$filter('date')(new Date(), 'dd/MM/yyyy'),
+			pickup_time:$filter('date')(new Date(), 'h:mm a'),
 		};
 
 		var getFormattedAddress = function(pos) {
@@ -225,6 +227,9 @@
 				className: 'ngdialog-theme-default'
 			}).then(function (value) {
 				console.log('Modal promise resolved. Value: ', value);
+				$location.path('/choose');
+				toaster.pop({type: 'success', title: "Booking Cancelled!", body:"You've successfully cancelled your cab"});
+
 			}, function (reason) {
 				console.log('Modal promise rejected. Reason: ', reason);
 			});
@@ -238,7 +243,7 @@
 			$location.path('/choose');
 
 			toaster.pop({type: 'success', title: "Booked!", body:"You've successfully booked a cab"});
-			
+
 	        $scope.$apply();
 	    };
 
