@@ -92,6 +92,11 @@
             }, false );
         }
 
+        if (navigator.network.connection.type == Connection.NONE) {
+            alert('Appycab requires internet connection');
+            navigator.app.exitApp();
+        }
+
         </script>
 
 
