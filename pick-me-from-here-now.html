@@ -12,7 +12,24 @@
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-12">
-        <b>[DISPLAY LAST ENTERRED ADDRESS IN AN EDITABLE FIELD]</b>
+        <map center="{{ client.from_address }}" on-dblclick="changedPositionFrom(event);" disable-double-click-zoom="true">
+          <marker 
+          position="{{ client.from_address }}"
+          title="PICKUP HERE"
+          draggable="true"
+          icon="http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+          on-dragend="markerDroppedFrom();">
+          </marker>
+
+          <!-- <marker 
+          position="{{ client.to_address }}" 
+          title="DESTINATION HERE"
+          draggable="true"
+          icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+          on-dragend="markerDroppedTo();">
+          </marker> -->
+
+        </map>
     </div>
 </div>
 

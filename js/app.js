@@ -1,6 +1,6 @@
 (function() {
 
-	var app = angular.module('appycab', ['LocalStorageModule', 'ngRoute', 'ngAnimate', 'angularValidator', 'ngMap', 'ngSanitize', 'timer', 'angular-loading-bar', 'toaster', 'ngDialog', 'angular-datepicker']);
+	var app = angular.module('appycab', ['LocalStorageModule', 'ngRoute', 'ngAnimate', 'angularValidator', 'ngMap', 'ngSanitize', 'timer', 'angular-loading-bar', 'toaster', 'ngDialog', 'angular-datepicker', 'geolocation']);
 
 
 	app.constant("APP_TOKEN", 'MpxMxk99c5YfQcuM9gAICKftTu1mFwqO')
@@ -196,19 +196,72 @@
 		}
 	});
 
-	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation) {
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Pick me up from here";
 		$rootScope.backButton = true;
 		$rootScope.pageClass='page';
+
+		geolocation.getLocation().then(function(data){
+	      $scope.current_lat = data.coords.latitude;
+	      $scope.current_lng = data.coords.longitude;
+
+	      $scope.coords = new google.maps.LatLng(data.coords.latitude, data.coords.longitude);
+
+	      getFormattedAddressFrom($scope.coords);
+
+	    });
+
 		$rootScope.back = function() {
 			$rootScope.pageClass='page-back';
 			$rootScope.backButton = false;
 			$location.path('/choose');
 		};
+
+		$scope.client = {
+			app_id:localStorageService.get('app_id'),
+			fname:localStorageService.get('fname'),
+			lname:localStorageService.get('lname'),
+			email:localStorageService.get('email'),
+			mobile:localStorageService.get('mobile'),
+			from_address:localStorageService.get('address'),
+			from_lat:localStorageService.get('lat'),
+			from_lng:localStorageService.get('lng'),
+
+			to_address:localStorageService.get('address'),
+			to_lat:localStorageService.get('lat'),
+			to_lng:localStorageService.get('lng'),
+
+			pickup_date:$filter('date')(new Date(), 'dd/MM/yyyy'),
+			pickup_time:$filter('date')(new Date(), 'h:mm a'),
+		};
+
+		var getFormattedAddressFrom = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      //document.getElementById("client_address_from").value = responses[0].formatted_address;
+			      $scope.client.from_lat = responses[0].geometry.location.lat();
+			      $scope.client.from_lng = responses[0].geometry.location.lng();
+			      $scope.client.from_address = responses[0].formatted_address;
+			    } else {
+			      alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		$scope.changedPositionFrom = function(event) {
+			$scope.map.markers[0].setPosition(event.latLng);
+			alert(event.latLng);
+			getFormattedAddressFrom(event.latLng);
+		}
 	});
 
-	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService) {
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Book a Cab";
 		$rootScope.backButton = true;
@@ -218,6 +271,86 @@
 			$rootScope.backButton = false;
 			$location.path('/choose');
 		};
+
+		$scope.client = {
+			app_id:localStorageService.get('app_id'),
+			fname:localStorageService.get('fname'),
+			lname:localStorageService.get('lname'),
+			email:localStorageService.get('email'),
+			mobile:localStorageService.get('mobile'),
+			from_address:localStorageService.get('address'),
+			from_lat:localStorageService.get('lat'),
+			from_lng:localStorageService.get('lng'),
+
+			to_address:localStorageService.get('address'),
+			to_lat:localStorageService.get('lat'),
+			to_lng:localStorageService.get('lng'),
+
+			pickup_date:$filter('date')(new Date(), 'dd/MM/yyyy'),
+			pickup_time:$filter('date')(new Date(), 'h:mm a'),
+		};
+
+		var getFormattedAddressFrom = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      document.getElementById("client_address_from").value = responses[0].formatted_address;
+			      $scope.client.from_lat = responses[0].geometry.location.lat();
+			      $scope.client.from_lng = responses[0].geometry.location.lng();
+			      $scope.client.from_address = responses[0].formatted_address;
+			    } else {
+			      alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		var getFormattedAddressTo = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      document.getElementById("client_address_to").value = responses[0].formatted_address;
+			      $scope.client.to_lat = responses[0].geometry.location.lat();
+			      $scope.client.to_lng = responses[0].geometry.location.lng();
+			      $scope.client.to_address = responses[0].formatted_address;
+			    } else {
+			      alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		$scope.markerDroppedFrom = function() {
+			getFormattedAddressFrom($scope.map.markers[0].getPosition());
+		}
+
+		$scope.markerDroppedTo = function() {
+			getFormattedAddressTo($scope.map.markers[1].getPosition());
+		}
+
+		$scope.changedPositionFrom = function(event) {
+			$scope.map.markers[0].setPosition(event.latLng);
+			getFormattedAddressFrom(event.latLng);
+		}
+
+		$scope.changedPositionTo = function(event) {
+			$scope.map.markers[1].setPosition(event.latLng);
+			getFormattedAddressTo(event.latLng);
+		}
+
+		$scope.process = function() {
+			var journey = AppyCabService.bookADifferentCabJourneyProcess($scope.client);
+			journey.success(function(response) {
+				$rootScope.journey_id = response.data.id;
+				$location.path('/make-booking');
+			});
+		}
 	});
 
 	app.controller('MakeBookingController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster, ngDialog) {
@@ -225,6 +358,10 @@
 		$rootScope.page_title="Booked";
 		$rootScope.backButton = false;
 		$rootScope.pageClass='page';
+
+		$scope.changeBooking = function() {
+			$location.path('/book-a-different-cab-journey');
+		};
 
 		$scope.openConfirm = function () {
 			ngDialog.openConfirm({
@@ -291,6 +428,25 @@
             };
         };
 
+        var sanitizeBookADifferentCabJourneyData = function (data) {
+            return {
+                app_id: $sanitize(data.app_id),
+                fname: $sanitize(data.fname),
+                lname: $sanitize(data.lname),
+                email: $sanitize(data.email),
+                mobile: $sanitize(data.mobile),
+                from_address: $sanitize(data.from_address),
+                from_lat: $sanitize(data.from_lat),
+                from_lng: $sanitize(data.from_lng),
+                to_address: $sanitize(data.to_address),
+                to_lat: $sanitize(data.to_lat),
+                to_lng: $sanitize(data.to_lng),
+                pickup_date: $sanitize(data.pickup_date),
+                pickup_time: $sanitize(data.pickup_time),
+                _token: APP_TOKEN
+            };
+        };
+
 		return {
 			hasDetails: function() {
 				if(localStorageService.get('fname')!==null 
@@ -319,24 +475,20 @@
 				localStorageService.set('lng', data.lng);
 
 				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/details', sanitizeDetailsData(data));
-				//var detail = $http.post('http://localhost:8000/api/v1/details', sanitizeDetailsData(data));
 
 				return detail;
 			},
 
 			takeMeHomeNowProcess: function(data) {
 
-				localStorageService.set('app_id', data.app_id);
-				localStorageService.set('fname', data.fname);
-				localStorageService.set('lname', data.lname);
-				localStorageService.set('email', data.email);
-				localStorageService.set('mobile', data.mobile);
-				localStorageService.set('address', data.address);
-				localStorageService.set('lat', data.lat);
-				localStorageService.set('lng', data.lng);
-
 				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/take-me-home-now', sanitizeTakeMeHomeData(data));
-				//var detail = $http.post('http://localhost:8000/api/v1/take-me-home-now', sanitizeDetailsData(data));
+
+				return detail;
+			},
+
+			bookADifferentCabJourneyProcess: function(data) {
+
+				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/book-different-cab-journey', sanitizeBookADifferentCabJourneyData(data));
 
 				return detail;
 			},
