@@ -5,8 +5,20 @@
 </div>
 
 <div class="row" style="margin-top:15px">
-    <div class="col-md-12">
-        <b>What is your destination address?</b>
+    <div class="col-md-6">
+        <b>ENTER PICK UP ADDRESS:</b>
+    </div>
+    <div class="col-md-6">
+        <input type="text" ng-model="client.from_address" id="client_address_from" class="form-control" />
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-6">
+        <b>ENTER DESTINATION ADDRESS:</b>
+    </div>
+    <div class="col-md-6">
+        <input type="text" ng-model="client.to_address" id="client_address_to" class="form-control" />
     </div>
 </div>
 
@@ -21,15 +33,32 @@
           on-dragend="markerDroppedFrom();">
           </marker>
 
-          <!-- <marker 
+          <marker 
           position="{{ client.to_address }}" 
           title="DESTINATION HERE"
           draggable="true"
           icon="http://maps.google.com/mapfiles/ms/icons/green-dot.png"
           on-dragend="markerDroppedTo();">
-          </marker> -->
+          </marker>
 
         </map>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <b>When:</b>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-7">
+        <label class="control-label">Date</label>
+        <input type="text" pick-a-date="date" pick-a-date-options="{ format: 'dd/mm/yyyy' }" ng-model="client.pickup_date" placeholder="Select Date" class="form-control" />
+    </div>
+    <div class="col-md-5">
+        <label class="control-label">Time</label>
+        <input type="text" pick-a-time="time" pick-a-time-options="{ interval: 15 }" ng-model="client.pickup_time" placeholder="Select Time" class="form-control" />
     </div>
 </div>
 

@@ -244,7 +244,7 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      //document.getElementById("client_address_from").value = responses[0].formatted_address;
+			      document.getElementById("client_address_from").value = responses[0].formatted_address;
 			      $scope.client.from_lat = responses[0].geometry.location.lat();
 			      $scope.client.from_lng = responses[0].geometry.location.lng();
 			      $scope.client.from_address = responses[0].formatted_address;
@@ -254,10 +254,48 @@
 			});
 		}
 
+		var getFormattedAddressTo = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      document.getElementById("client_address_to").value = responses[0].formatted_address;
+			      $scope.client.to_lat = responses[0].geometry.location.lat();
+			      $scope.client.to_lng = responses[0].geometry.location.lng();
+			      $scope.client.to_address = responses[0].formatted_address;
+			    } else {
+			      alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		$scope.markerDroppedFrom = function() {
+			getFormattedAddressFrom($scope.map.markers[0].getPosition());
+		}
+
+		$scope.markerDroppedTo = function() {
+			getFormattedAddressTo($scope.map.markers[1].getPosition());
+		}
+
 		$scope.changedPositionFrom = function(event) {
 			$scope.map.markers[0].setPosition(event.latLng);
-			alert(event.latLng);
 			getFormattedAddressFrom(event.latLng);
+		}
+
+		$scope.changedPositionTo = function(event) {
+			$scope.map.markers[1].setPosition(event.latLng);
+			getFormattedAddressTo(event.latLng);
+		}
+
+		$scope.process = function() {
+			var journey = AppyCabService.pickMeFromHereNowProcess($scope.client);
+			journey.success(function(response) {
+				$rootScope.journey_id = response.data.id;
+				$location.path('/make-booking');
+			});
 		}
 	});
 
@@ -447,6 +485,25 @@
             };
         };
 
+        var sanitizePickMeFromHereNowData = function (data) {
+            return {
+                app_id: $sanitize(data.app_id),
+                fname: $sanitize(data.fname),
+                lname: $sanitize(data.lname),
+                email: $sanitize(data.email),
+                mobile: $sanitize(data.mobile),
+                from_address: $sanitize(data.from_address),
+                from_lat: $sanitize(data.from_lat),
+                from_lng: $sanitize(data.from_lng),
+                to_address: $sanitize(data.to_address),
+                to_lat: $sanitize(data.to_lat),
+                to_lng: $sanitize(data.to_lng),
+                pickup_date: $sanitize(data.pickup_date),
+                pickup_time: $sanitize(data.pickup_time),
+                _token: APP_TOKEN
+            };
+        };
+
 		return {
 			hasDetails: function() {
 				if(localStorageService.get('fname')!==null 
@@ -489,6 +546,13 @@
 			bookADifferentCabJourneyProcess: function(data) {
 
 				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/book-different-cab-journey', sanitizeBookADifferentCabJourneyData(data));
+
+				return detail;
+			},
+
+			pickMeFromHereNowProcess: function(data) {
+
+				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/pick-me-from-here-now', sanitizePickMeFromHereNowData(data));
 
 				return detail;
 			},
