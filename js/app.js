@@ -41,6 +41,10 @@
 			.when('/make-booking', {
 				templateUrl: 'make-booking.html',
 				controller: 'MakeBookingController'
+			})
+			.when('/activate-email', {
+				templateUrl: 'activate-email.html',
+				controller: 'ActivateEmailController'
 			});
 
 		// We need to setup some parameters for http requests
@@ -159,16 +163,33 @@
 
 	});
 
-	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster) {
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Choose";
 		$rootScope.backButton = AppyCabService.hasDetails() ? false:true;
 		$rootScope.pageClass='page';
+
+		$scope.email_activated = true;
+		AppyCabService.isEmailActivated().success(function(response) {
+			if(response.activated=='no') {
+				$scope.email_activated = false;
+			} else {
+				$scope.email_activated = true;
+			}
+		});
+
 		$rootScope.back = function() {
 			$rootScope.pageClass='page-back';
 			$rootScope.backButton = false;
 			$location.path('/');
 		};
+
+		$scope.activateNow = function() {
+			AppyCabService.sendActivationCode().success(function(response) {
+				$location.path('/activate-email');
+				toaster.pop('success','',response.flash);
+			});
+		}
 	});
 
 	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService) {
@@ -179,6 +200,15 @@
 		$rootScope.pageClass='page';
 
 		$rootScope.journey_id = '';
+
+		$scope.email_activated = true;
+		AppyCabService.isEmailActivated().success(function(response) {
+			if(response.activated=='no') {
+				$scope.email_activated = false;
+			} else {
+				$scope.email_activated = true;
+			}
+		});
 
 		$rootScope.back = function() {
 			$rootScope.pageClass='page-back';
@@ -250,6 +280,15 @@
 	      getFormattedAddressFrom($scope.coords);
 
 	    });
+
+	    $scope.email_activated = true;
+		AppyCabService.isEmailActivated().success(function(response) {
+			if(response.activated=='no') {
+				$scope.email_activated = false;
+			} else {
+				$scope.email_activated = true;
+			}
+		});
 
 		$rootScope.back = function() {
 			$rootScope.pageClass='page-back';
@@ -343,6 +382,16 @@
 		$rootScope.page_title="Book a Cab";
 		$rootScope.backButton = true;
 		$rootScope.pageClass='page';
+
+		$scope.email_activated = true;
+		AppyCabService.isEmailActivated().success(function(response) {
+			if(response.activated=='no') {
+				$scope.email_activated = false;
+			} else {
+				$scope.email_activated = true;
+			}
+		});
+
 		$rootScope.back = function() {
 			$rootScope.pageClass='page-back';
 			$rootScope.backButton = false;
@@ -491,6 +540,45 @@
 	});
 
 	
+	app.controller('ActivateEmailController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, toaster, ngDialog) {
+		$rootScope.hasDetails = AppyCabService.hasDetails();
+		$rootScope.page_title="Email Activation";
+		$rootScope.backButton = true;
+		$rootScope.pageClass='page';
+
+		$rootScope.back = function() {
+			window.history.back();
+		};
+
+		$scope.client = {
+			app_id:localStorageService.get('app_id'),
+			activation_code:''
+		};
+
+		$scope.activateNow = function() {
+			AppyCabService.sendActivationCode().success(function(response) {
+				toaster.pop('success','',response.flash);
+			});
+		};
+
+		$scope.activate = function() {
+			var attempt = AppyCabService.emailAttemptActivate($scope.client);
+
+			attempt.success(function(response) {
+				toaster.pop('success','',response.flash);
+				window.history.back();
+			});
+
+			attempt.error(function(response) {
+				toaster.pop('error','',response.flash);
+			});
+
+		};
+		
+
+	});
+
+	
 	app.factory("AppyCabService", function(localStorageService, APP_TOKEN, API_BASE_URL, $http, $sanitize) {
 
 		var sanitizeDetailsData = function (data) {
@@ -561,6 +649,14 @@
             };
         };
 
+        var sanitizeEmailActivationData = function (data) {
+        	return {
+        		app_id: $sanitize(data.app_id),
+                code: $sanitize(data.activation_code),
+                _token: APP_TOKEN
+        	};
+        };
+
 		return {
 			hasDetails: function() {
 				if(localStorageService.get('fname')!==null 
@@ -617,6 +713,31 @@
 			cancelCab: function(journey_id) {
 
 				var detail = $http.get('http://appycab.co.uk/appycab-api/public/api/v1/cancel-cab/'+journey_id);
+
+				return detail;
+			},
+
+			isEmailActivated: function() {
+
+				var app_id = localStorageService.get('app_id');
+
+				var detail = $http.get('http://appycab.co.uk/appycab-api/public/api/v1/is-email-activated/'+app_id);
+
+				return detail;
+
+			},
+
+			sendActivationCode: function() {
+				var app_id = localStorageService.get('app_id');
+
+				var detail = $http.get('http://appycab.co.uk/appycab-api/public/api/v1/resend-email-activation-code/'+app_id);
+
+				return detail;
+			},
+
+			emailAttemptActivate: function(data) {
+
+				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/activate-email', sanitizeEmailActivationData(data));
 
 				return detail;
 			}

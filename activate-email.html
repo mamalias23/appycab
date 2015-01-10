@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-12" style="text-align:center">
+        <img src="img/logo.png" />
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <b>Please enter the code we have just sent via email:</b>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <input type="text" ng-model="client.activation_code" class="form-control input-lg" />
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px;margin-bottom:15px">
+    <div class="col-md-12" style="text-align:center">
+        <button type="submit" class="btn btn-custom btn-lg" ng-click="activate()">ACTIVATE <i class="fa fa-check-square-o"></i></button>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <b>Did not receive or unreadable code?</b>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px;margin-bottom:15px">
+    <div class="col-md-12" style="text-align:center">
+        <button type="button" class="btn btn-custom btn-sm" ng-click="activateNow()">RESEND CODE <i class="fa fa-refresh"></i></button>
+    </div>
+</div>
