@@ -6,7 +6,16 @@
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-6">
-        <b>ENTER PICK UP ADDRESS:</b>
+        <b>ENTER DESTINATION ADDRESS: <i class="fa fa-map-marker" style="font-size:25px;color:#00e64d"></i></b>
+    </div>
+    <div class="col-md-6">
+        <input type="text" ng-model="client.to_address" id="client_address_to" class="form-control" />
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-6">
+        <b>CONFIRM PICK UP ADDRESS: <i class="fa fa-map-marker" style="font-size:25px;color:#fd7567"></i></b>
     </div>
     <div class="col-md-6">
         <input type="text" ng-model="client.from_address" id="client_address_from" class="form-control" />
@@ -14,11 +23,8 @@
 </div>
 
 <div class="row" style="margin-top:15px">
-    <div class="col-md-6">
-        <b>ENTER DESTINATION ADDRESS:</b>
-    </div>
-    <div class="col-md-6">
-        <input type="text" ng-model="client.to_address" id="client_address_to" class="form-control" />
+    <div class="col-md-12">
+        <b>This map confirms your pick up address. You can move the pin to adjust your pick up address.</b>
     </div>
 </div>
 

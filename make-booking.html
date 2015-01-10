@@ -27,3 +27,21 @@
         <button type="submit" class="btn btn-custom btn-lg" ng-click="openConfirm()">CANCEL BOOKING</button>
     </div>
 </div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <b>Journey details:</b>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <b>FROM: {{ client.from_address }}</b>
+    </div>
+</div>
+
+<div ng-show="client.to_address!=client.from_address" class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <b>TO: {{ client.to_address }}</b>
+    </div>
+</div>

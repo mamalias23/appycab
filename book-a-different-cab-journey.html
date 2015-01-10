@@ -24,6 +24,12 @@
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-12">
+        <b>This map confirms your pick up and destination addresses. You can move the pin to adjust your journey.</b>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12">
         <map center="{{ client.from_address }}" on-dblclick="changedPositionTo(event);" disable-double-click-zoom="true">
           <marker 
           position="{{ client.from_address }}"

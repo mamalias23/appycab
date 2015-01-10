@@ -64,7 +64,7 @@
 
 	});
 
-	app.controller('DetailsController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+	app.controller('DetailsController', function($scope, $rootScope, $location, localStorageService, AppyCabService, ngDialog, toaster) {
 		$rootScope.page_title="Welcome!";
 		$rootScope.backButton = false;
 		$rootScope.hasDetails = AppyCabService.hasDetails();
@@ -79,15 +79,33 @@
 			lng:localStorageService.get('lng'),
 		};
 
+		$scope.emailRequiredModal = function() {
+			ngDialog.open({ template:'email_required_modal' });
+		}
+
+		$scope.mobileRequiredModal = function() {
+			ngDialog.open({ template:'mobile_required_modal' });
+		}
+
+		$scope.addressRequiredModal = function() {
+			ngDialog.open({ template:'address_required_modal' });
+		}
+
 		$scope.process = function() {
 
 			var detail = AppyCabService.processDetail($scope.client);
 
+			var first_time = 0;
+			if(!localStorageService.get('app_id'))
+				first_time = 1;
+
 			detail.success(function(response) {
 
 				localStorageService.set('app_id', response.data.app_id);
-
 				$location.path('/choose');
+				if(first_time) {
+					toaster.pop({type: 'success', title: "Success", body:"Welcome to Appy cab. What would you like to do next?"});
+				}
 			});
 			
 		};
@@ -105,7 +123,23 @@
 			      $scope.client.lng = responses[0].geometry.location.lng();
 			      $scope.client.address = responses[0].formatted_address;
 			    } else {
-			      alert('Cannot determine address at this location.');
+			      //alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		var getFormattedAddress2 = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      $scope.client.lat = responses[0].geometry.location.lat();
+			      $scope.client.lng = responses[0].geometry.location.lng();
+			    } else {
+			      //alert('Cannot determine address at this location.');
 			    }
 			});
 		}
@@ -114,10 +148,15 @@
 			getFormattedAddress($scope.map.markers[0].getPosition());
 		}
 
+		$scope.markerDropped2 = function() {
+			getFormattedAddress2($scope.map.markers[0].getPosition());
+		}
+
 		$scope.changedPosition = function(event) {
 			$scope.map.markers[0].setPosition(event.latLng);
 			getFormattedAddress(event.latLng);
 		}
+
 	});
 
 	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
@@ -391,11 +430,29 @@
 		}
 	});
 
-	app.controller('MakeBookingController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster, ngDialog) {
+	app.controller('MakeBookingController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, toaster, ngDialog) {
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Booked";
 		$rootScope.backButton = false;
 		$rootScope.pageClass='page';
+
+		$scope.client = {
+			app_id:localStorageService.get('app_id'),
+			fname:localStorageService.get('fname'),
+			lname:localStorageService.get('lname'),
+			email:localStorageService.get('email'),
+			mobile:localStorageService.get('mobile'),
+			from_address:localStorageService.get('address'),
+			from_lat:localStorageService.get('lat'),
+			from_lng:localStorageService.get('lng'),
+
+			to_address:localStorageService.get('address'),
+			to_lat:localStorageService.get('lat'),
+			to_lng:localStorageService.get('lng'),
+
+			pickup_date:$filter('date')(new Date(), 'dd/MM/yyyy'),
+			pickup_time:$filter('date')(new Date(), 'h:mm a'),
+		};
 
 		$scope.changeBooking = function() {
 			$location.path('/book-a-different-cab-journey');
@@ -425,7 +482,7 @@
 
 			$location.path('/choose');
 
-			toaster.pop({type: 'success', title: "Booked!", body:"You've successfully booked a cab"});
+			toaster.pop({type: 'success', title: "Booked!", body:"Thank you for booking your journey using Appy Cab. You will soon receive a text message confirming your booking and journey details."});
 
 	        $scope.$apply();
 	    };

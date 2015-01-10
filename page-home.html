@@ -6,7 +6,7 @@
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-12">
-        <b>PLEASE ENTER YOUR DETAILS:</b>
+        <b>In order to use our services you will need to register with us.</b>
     </div>
 </div>
 
@@ -39,7 +39,7 @@
 </div>
 
 <div class="form-group" style="margin-top:15px">
-    <label class="col-sm-6 control-label">Email: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
+    <label class="col-sm-6 control-label">Email: <i ng-click="emailRequiredModal()" class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
     <div class="col-sm-6">
         <input type = "email"
             name = "email"
@@ -53,7 +53,7 @@
 </div>
 
 <div class="form-group" style="margin-top:15px">
-    <label class="col-sm-6 control-label">Mobile No.: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
+    <label class="col-sm-6 control-label">Mobile No.: <i ng-click="mobileRequiredModal()" class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
     <div class="col-sm-6">
         <input type = "text"
             name = "mobile"
@@ -66,7 +66,7 @@
 </div>
 
 <div class="form-group" style="margin-top:15px">
-    <label class="col-sm-6 control-label">Home Address: <i class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
+    <label class="col-sm-6 control-label">Home Address: <i ng-click="addressRequiredModal()" class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
     <div class="col-sm-6">
         <input type = "text"
             name = "address"
@@ -75,7 +75,20 @@
             class = "form-control"
             ng-model = "client.address"
             required-message="'This field is required.'"
+            placeholder="Enter your postcode"
             required>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12" style="text-align:center">
+        <button type="submit" class="btn btn-custom btn-lg">Continue <i class="fa fa-arrow-circle-o-right"></i></button>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12">
+        <b>This map confirms your home address.</b>
     </div>
 </div>
 
@@ -86,14 +99,9 @@
           position="{{ client.address==null ? 'petersfield, uk':client.address }}" 
           draggable="true"
           on-dragend="markerDropped();"
+          on-position_changed="markerDropped2();"
         ></marker>
         </map>
-    </div>
-</div>
-
-<div class="row" style="margin-top:15px">
-    <div class="col-md-12" style="text-align:center">
-        <button type="submit" class="btn btn-custom btn-lg">Continue <i class="fa fa-arrow-circle-o-right"></i></button>
     </div>
 </div>
 
