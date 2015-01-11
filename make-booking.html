@@ -36,12 +36,12 @@
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-12">
-        <b>FROM: {{ client.from_address }}</b>
+        <b>FROM: {{ journey_from_address }}</b>
     </div>
 </div>
 
-<div ng-show="client.to_address!=client.from_address" class="row" style="margin-top:15px">
+<div ng-show="journey_from_address!=journey_to_address" class="row" style="margin-top:15px">
     <div class="col-md-12">
-        <b>TO: {{ client.to_address }}</b>
+        <b>TO: {{ journey_to_address }}</b>
     </div>
 </div>

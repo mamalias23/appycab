@@ -45,6 +45,10 @@
 			.when('/activate-email', {
 				templateUrl: 'activate-email.html',
 				controller: 'ActivateEmailController'
+			})
+			.when('/change-booking', {
+				templateUrl: 'book-a-different-cab-journey.html',
+				controller: 'ChangeBookingController'
 			});
 
 		// We need to setup some parameters for http requests
@@ -260,6 +264,12 @@
 			var journey = AppyCabService.takeMeHomeNowProcess($scope.client);
 			journey.success(function(response) {
 				$rootScope.journey_id = response.data.id;
+				$rootScope.journey_from_address = response.data.pickup_address;
+				$rootScope.journey_to_address = response.data.destination_address;
+				$rootScope.journey_from_lat = response.data.from_lat;
+				$rootScope.journey_from_lng = response.data.from_lng;
+				$rootScope.journey_to_lat = response.data.to_lat;
+				$rootScope.journey_to_lng = response.data.to_lng;
 				$location.path('/make-booking');
 			});
 		}
@@ -372,6 +382,12 @@
 			var journey = AppyCabService.pickMeFromHereNowProcess($scope.client);
 			journey.success(function(response) {
 				$rootScope.journey_id = response.data.id;
+				$rootScope.journey_from_address = response.data.pickup_address;
+				$rootScope.journey_to_address = response.data.destination_address;
+				$rootScope.journey_from_lat = response.data.from_lat;
+				$rootScope.journey_from_lng = response.data.from_lng;
+				$rootScope.journey_to_lat = response.data.to_lat;
+				$rootScope.journey_to_lng = response.data.to_lng;
 				$location.path('/make-booking');
 			});
 		}
@@ -474,6 +490,121 @@
 			var journey = AppyCabService.bookADifferentCabJourneyProcess($scope.client);
 			journey.success(function(response) {
 				$rootScope.journey_id = response.data.id;
+				$rootScope.journey_from_address = response.data.pickup_address;
+				$rootScope.journey_to_address = response.data.destination_address;
+				$rootScope.journey_from_lat = response.data.from_lat;
+				$rootScope.journey_from_lng = response.data.from_lng;
+				$rootScope.journey_to_lat = response.data.to_lat;
+				$rootScope.journey_to_lng = response.data.to_lng;
+				$location.path('/make-booking');
+			});
+		}
+	});
+
+	app.controller('ChangeBookingController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService) {
+		$rootScope.hasDetails = AppyCabService.hasDetails();
+		$rootScope.page_title="Change Booking";
+		$rootScope.backButton = false;
+		$rootScope.pageClass='page';
+
+		$scope.email_activated = true;
+		AppyCabService.isEmailActivated().success(function(response) {
+			if(response.activated=='no') {
+				$scope.email_activated = false;
+			} else {
+				$scope.email_activated = true;
+			}
+		});
+
+		$rootScope.back = function() {
+			$rootScope.pageClass='page-back';
+			$rootScope.backButton = false;
+			$location.path('/choose');
+		};
+
+		$scope.client = {
+			app_id:localStorageService.get('app_id'),
+			journey_id:$rootScope.journey_id,
+			fname:localStorageService.get('fname'),
+			lname:localStorageService.get('lname'),
+			email:localStorageService.get('email'),
+			mobile:localStorageService.get('mobile'),
+			from_address:$rootScope.journey_from_address,
+			from_lat:$rootScope.journey_from_lat,
+			from_lng:$rootScope.journey_from_lng,
+
+			to_address:$rootScope.journey_to_address,
+			to_lat:$rootScope.journey_to_lat,
+			to_lng:$rootScope.journey_to_lng,
+
+			pickup_date:$filter('date')(new Date(), 'dd/MM/yyyy'),
+			pickup_time:$filter('date')(new Date(), 'h:mm a'),
+		};
+
+		var getFormattedAddressFrom = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      document.getElementById("client_address_from").value = responses[0].formatted_address;
+			      $scope.client.from_lat = responses[0].geometry.location.lat();
+			      $scope.client.from_lng = responses[0].geometry.location.lng();
+			      $scope.client.from_address = responses[0].formatted_address;
+			    } else {
+			      alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		var getFormattedAddressTo = function(pos) {
+
+			geocoder = new google.maps.Geocoder();
+
+			geocoder.geocode({
+			   	latLng: pos
+			}, function(responses) {
+			    if (responses && responses.length > 0) {
+			      document.getElementById("client_address_to").value = responses[0].formatted_address;
+			      $scope.client.to_lat = responses[0].geometry.location.lat();
+			      $scope.client.to_lng = responses[0].geometry.location.lng();
+			      $scope.client.to_address = responses[0].formatted_address;
+			    } else {
+			      alert('Cannot determine address at this location.');
+			    }
+			});
+		}
+
+		$scope.markerDroppedFrom = function() {
+			getFormattedAddressFrom($scope.map.markers[0].getPosition());
+		}
+
+		$scope.markerDroppedTo = function() {
+			getFormattedAddressTo($scope.map.markers[1].getPosition());
+		}
+
+		$scope.changedPositionFrom = function(event) {
+			$scope.map.markers[0].setPosition(event.latLng);
+			getFormattedAddressFrom(event.latLng);
+		}
+
+		$scope.changedPositionTo = function(event) {
+			$scope.map.markers[1].setPosition(event.latLng);
+			getFormattedAddressTo(event.latLng);
+		}
+
+		$scope.process = function() {
+			var journey = AppyCabService.changeBooking($scope.client);
+			journey.success(function(response) {
+				$rootScope.journey_id = response.data.id;
+				$rootScope.journey_from_address = response.data.pickup_address;
+				$rootScope.journey_to_address = response.data.destination_address;
+				$rootScope.journey_from_lat = response.data.from_lat;
+				$rootScope.journey_from_lng = response.data.from_lng;
+				$rootScope.journey_to_lat = response.data.to_lat;
+				$rootScope.journey_to_lng = response.data.to_lng;
 				$location.path('/make-booking');
 			});
 		}
@@ -504,7 +635,7 @@
 		};
 
 		$scope.changeBooking = function() {
-			$location.path('/book-a-different-cab-journey');
+			$location.path('/change-booking');
 		};
 
 		$scope.openConfirm = function () {
@@ -630,6 +761,26 @@
             };
         };
 
+        var sanitizeChangeBookingData = function (data) {
+            return {
+                app_id: $sanitize(data.app_id),
+                journey_id: $sanitize(data.journey_id),
+                fname: $sanitize(data.fname),
+                lname: $sanitize(data.lname),
+                email: $sanitize(data.email),
+                mobile: $sanitize(data.mobile),
+                from_address: $sanitize(data.from_address),
+                from_lat: $sanitize(data.from_lat),
+                from_lng: $sanitize(data.from_lng),
+                to_address: $sanitize(data.to_address),
+                to_lat: $sanitize(data.to_lat),
+                to_lng: $sanitize(data.to_lng),
+                pickup_date: $sanitize(data.pickup_date),
+                pickup_time: $sanitize(data.pickup_time),
+                _token: APP_TOKEN
+            };
+        };
+
         var sanitizePickMeFromHereNowData = function (data) {
             return {
                 app_id: $sanitize(data.app_id),
@@ -706,6 +857,13 @@
 			pickMeFromHereNowProcess: function(data) {
 
 				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/pick-me-from-here-now', sanitizePickMeFromHereNowData(data));
+
+				return detail;
+			},
+
+			changeBooking: function(data) {
+
+				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/change-booking', sanitizeChangeBookingData(data));
 
 				return detail;
 			},
