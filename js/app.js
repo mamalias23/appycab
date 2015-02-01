@@ -73,6 +73,18 @@
 	});
 
 	app.controller('DetailsController', function($scope, $rootScope, $location, localStorageService, AppyCabService, ngDialog, toaster) {
+		
+		//check if agreed to terms
+		if(!localStorageService.get('has_agreed_to_terms')) {
+			
+			$scope.agreedToTermsAndCondition = function() {
+				localStorageService.set('has_agreed_to_terms', true);
+				ngDialog.close();
+			}
+
+			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
+		}
+
 		$rootScope.page_title="Welcome!";
 		$rootScope.backButton = false;
 		$rootScope.hasDetails = AppyCabService.hasDetails();
@@ -167,7 +179,19 @@
 
 	});
 
-	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster) {
+	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster, ngDialog) {
+
+		//check if agreed to terms
+		if(!localStorageService.get('has_agreed_to_terms')) {
+			
+			$scope.agreedToTermsAndCondition = function() {
+				localStorageService.set('has_agreed_to_terms', true);
+				ngDialog.close();
+			}
+
+			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
+		}
+
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Choose";
 		$rootScope.backButton = AppyCabService.hasDetails() ? false:true;
@@ -196,8 +220,19 @@
 		}
 	});
 
-	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService) {
+	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog) {
 
+		//check if agreed to terms
+		if(!localStorageService.get('has_agreed_to_terms')) {
+			
+			$scope.agreedToTermsAndCondition = function() {
+				localStorageService.set('has_agreed_to_terms', true);
+				ngDialog.close();
+			}
+
+			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
+		}
+		
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Take me Home";
 		$rootScope.backButton = true;
@@ -270,12 +305,25 @@
 				$rootScope.journey_from_lng = response.data.from_lng;
 				$rootScope.journey_to_lat = response.data.to_lat;
 				$rootScope.journey_to_lng = response.data.to_lng;
+				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
 		}
 	});
 
-	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation) {
+	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation, ngDialog) {
+		
+		//check if agreed to terms
+		if(!localStorageService.get('has_agreed_to_terms')) {
+			
+			$scope.agreedToTermsAndCondition = function() {
+				localStorageService.set('has_agreed_to_terms', true);
+				ngDialog.close();
+			}
+
+			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
+		}
+
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Pick me up from here";
 		$rootScope.backButton = true;
@@ -388,12 +436,25 @@
 				$rootScope.journey_from_lng = response.data.from_lng;
 				$rootScope.journey_to_lat = response.data.to_lat;
 				$rootScope.journey_to_lng = response.data.to_lng;
+				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
 		}
 	});
 
-	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService) {
+	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog) {
+		
+		//check if agreed to terms
+		if(!localStorageService.get('has_agreed_to_terms')) {
+			
+			$scope.agreedToTermsAndCondition = function() {
+				localStorageService.set('has_agreed_to_terms', true);
+				ngDialog.close();
+			}
+
+			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
+		}
+
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Book a Cab";
 		$rootScope.backButton = true;
@@ -496,12 +557,25 @@
 				$rootScope.journey_from_lng = response.data.from_lng;
 				$rootScope.journey_to_lat = response.data.to_lat;
 				$rootScope.journey_to_lng = response.data.to_lng;
+				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
 		}
 	});
 
-	app.controller('ChangeBookingController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService) {
+	app.controller('ChangeBookingController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog) {
+		
+		//check if agreed to terms
+		if(!localStorageService.get('has_agreed_to_terms')) {
+			
+			$scope.agreedToTermsAndCondition = function() {
+				localStorageService.set('has_agreed_to_terms', true);
+				ngDialog.close();
+			}
+
+			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
+		}
+
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Change Booking";
 		$rootScope.backButton = false;
@@ -605,6 +679,7 @@
 				$rootScope.journey_from_lng = response.data.from_lng;
 				$rootScope.journey_to_lat = response.data.to_lat;
 				$rootScope.journey_to_lng = response.data.to_lng;
+				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
 		}
@@ -672,6 +747,18 @@
 
 	
 	app.controller('ActivateEmailController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, toaster, ngDialog) {
+		
+		//check if agreed to terms
+		if(!localStorageService.get('has_agreed_to_terms')) {
+			
+			$scope.agreedToTermsAndCondition = function() {
+				localStorageService.set('has_agreed_to_terms', true);
+				ngDialog.close();
+			}
+
+			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
+		}
+
 		$rootScope.hasDetails = AppyCabService.hasDetails();
 		$rootScope.page_title="Email Activation";
 		$rootScope.backButton = true;

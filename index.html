@@ -56,8 +56,18 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav navbar-right">
-                <li ng-show="hasDetails"><a href="#/details" class="collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">Details</a></li>
-                <li><a href="#" class="exitApp">Exit</a></li>
+                <li ng-show="hasDetails"><a href="#/details" class="collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">MY DETAILS</a></li>
+                <li ng-show="hasDetails"><a href="#/take-me-home-now" class="collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">TAKE ME HOME</a></li>
+                <li ng-show="hasDetails"><a href="#/pick-me-from-here-now" class="collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">PICK ME UP FROM HERE</a></li>
+                <li ng-show="hasDetails"><a href="#/book-a-different-cab-journey" class="collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">BOOK A DIFFERENT CAB JOURNEY</a></li>
+                <li class="dropdown">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">CONTACT US <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">User feedback</a></li>
+                        <li><a href="#">I'm a cab company and I want to find out more</a></li>
+                    </ul>
+                </li>
+                <!-- <li><a href="#" class="exitApp">EXIT</a></li> -->
               </ul>
             </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
@@ -109,6 +119,28 @@
                 <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog('button')">OK</button>
             </div>
         </script>
+
+
+        <!--terms and condition modal -->
+        <script type="text/ng-template" id="terms_and_condition_modal">
+            <div class="ngdialog-message">
+                <h3>Terms and Conditions for the Use of the AppyCab Taxi Ordering Smart Phone Application.</h3>
+                
+                <br />
+                <ol type="1">
+                    <li>The AppyCab system is provided for use by Provincial Travel Booking Systems Ltd.</li>
+                    <li>In Version 2, The AppyCab system will automatically select the nearest and / or quickest cab to get to the pickup location as identified in the taxi ordering process.</li>
+                    <li>In Version 2 passengers will be able to identify a "Favourite" taxi company which will always receive priority, as long as the favourite taxi company has responded to the request.</li>
+                    <li>In Version 2 passengers will be able to track the progress of their taxi and monitor the arrival time.</li>
+                    <li>Once a taxi has been booked through the AppyCab system, the system will provide the contact details of the selected cab company to the passenger, as well as providing the passenger details to the taxi company.  The passenger has the opportunity to cancel or change the booking immediately after and within 30 seconds of making the booking using the AppyCab app.</li>
+                    <li>The AppyCab system relies upon the response time provided by the taxi company. Taxi companies are warned of their potential exclusion from the system should their response times be persistently optimistic. However, Provincial Travel Booking Systems Ltd. accepts no liability of any losses incurred due to the late arrival of a taxi booked through the AppyCab system.</li>
+                </ol>
+            </div>
+            <div class="ngdialog-buttons">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="agreedToTermsAndCondition()">I agree</button>
+            </div>
+        </script>
+
 
         <script type="text/javascript">
 

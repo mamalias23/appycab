@@ -18,7 +18,11 @@ span.title {
 
 .navbar-inverse { background-color: #FF8629}
 .navbar-inverse .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { background-color: #FF9D3B}
-.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { background-color: #FF8629}
+.navbar-inverse .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { background-color: #FF8629; background-image:none !important; box-shadow:none; }
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.active>a {
+  background-color: #F57717;
+}
+.dropdown.open { background-color: #F57717 }
 .dropdown-menu { background-color: #FF8629}
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-color: #FF8629}
 .navbar-inverse { background-image: none; }
@@ -49,6 +53,12 @@ span.title {
 	border-color: #fff;
 }
 
+@media (max-width: 767px) {
+  .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+    color: #fff;
+  }
+}
+
 
 
 .btn-custom { 
@@ -64,7 +74,8 @@ span.title {
 .open .dropdown-toggle.btn-custom { 
   color: #ffffff; 
   background-color: #F57717; 
-  border-color: #FF8629; 
+  border-color: none !important; 
+  border: 0px !important;
 } 
  
 .btn-custom:active, 
