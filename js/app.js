@@ -49,6 +49,18 @@
 			.when('/change-booking', {
 				templateUrl: 'book-a-different-cab-journey.html',
 				controller: 'ChangeBookingController'
+			})
+			.when('/about', {
+				templateUrl: 'about.html',
+				controller: 'AboutController'
+			})
+			.when('/contact-user-feedback', {
+				templateUrl: 'contact-user-feedback.html',
+				controller: 'ContactUserFeedbackController'
+			})
+			.when('/contact-cab-company', {
+				templateUrl: 'contact-cab-company.html',
+				controller: 'ContactCabCompanyController'
 			});
 
 		// We need to setup some parameters for http requests
@@ -73,6 +85,54 @@
 			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
 		}
 
+	});
+
+	app.controller('AboutController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+		$rootScope.page_title="About AppyCab";
+	});
+
+	app.controller('ContactUserFeedbackController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+		$rootScope.page_title="Contact – App Users";
+		$rootScope.backButton = true;
+		$rootScope.hasDetails = AppyCabService.hasDetails();
+		$scope.client = {
+			app_id:localStorageService.get('app_id'),
+			fname:localStorageService.get('fname'),
+			lname:localStorageService.get('lname'),
+			email:localStorageService.get('email'),
+			mobile:localStorageService.get('mobile'),
+			address:localStorageService.get('address'),
+			lat:localStorageService.get('lat'),
+			lng:localStorageService.get('lng'),
+		};
+
+		$rootScope.back = function() {
+			$rootScope.pageClass='page-back';
+			$rootScope.backButton = false;
+			$location.path('/');
+		};
+	});
+
+	app.controller('ContactCabCompanyController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+		$rootScope.page_title="Contact – Taxi Firms";
+		$rootScope.backButton = true;
+		$rootScope.hasDetails = AppyCabService.hasDetails();
+		$scope.client = {
+			app_id:localStorageService.get('app_id'),
+			fname:localStorageService.get('fname'),
+			lname:localStorageService.get('lname'),
+			email:localStorageService.get('email'),
+			mobile:localStorageService.get('mobile'),
+			address:localStorageService.get('address'),
+			lat:localStorageService.get('lat'),
+			lng:localStorageService.get('lng'),
+		};
+
+		$rootScope.back = function() {
+			$rootScope.pageClass='page-back';
+			$rootScope.backButton = false;
+			$location.path('/');
+		};
 	});
 
 	app.controller('HomeController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {

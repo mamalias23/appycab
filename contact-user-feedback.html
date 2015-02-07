@@ -1,0 +1,37 @@
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12" style="text-align:center">
+        <p>If you have feedback or questions for us we’d love to hear them. Please add your comments below and send. Thank you!</p>
+    </div>
+</div>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Name:</label>
+    <div class="col-sm-6">
+        <input type = "text"
+            name = "name"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "contact.name"
+            required-message="'This field is required.'"
+            required>
+    </div>
+</div>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Comment</label>
+    <div class="col-sm-6">
+        <textarea name = "comment"
+            rows="5"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "contact.comment"
+            required-message="'This field is required.'"
+            required></textarea>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px">
+    <div class="col-md-12" style="text-align:center">
+        <button type="submit" class="btn btn-custom btn-lg">SEND <i class="fa fa-arrow-circle-o-right"></i></button>
+    </div>
+</div>
