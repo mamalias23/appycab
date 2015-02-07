@@ -62,6 +62,19 @@
 
 	});
 
+	app.controller('TCController', function($scope, $rootScope, $location, localStorageService, AppyCabService, ngDialog) {
+		
+		$scope.agreedToTermsAndCondition = function() {
+			localStorageService.set('has_agreed_to_terms', true);
+			ngDialog.close();
+		}
+
+		$scope.openTC = function() {
+			ngDialog.open({ template:'terms_and_condition_modal', scope:$scope });
+		}
+
+	});
+
 	app.controller('HomeController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
 		
 		if(AppyCabService.hasDetails()) {
@@ -193,7 +206,7 @@
 		}
 
 		$rootScope.hasDetails = AppyCabService.hasDetails();
-		$rootScope.page_title="Choose";
+		$rootScope.page_title="Choose your Journey";
 		$rootScope.backButton = AppyCabService.hasDetails() ? false:true;
 		$rootScope.pageClass='page';
 

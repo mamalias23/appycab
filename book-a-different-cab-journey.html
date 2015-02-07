@@ -1,26 +1,34 @@
-<div class="row" style="margin-bottom:15px">
-    <div class="col-md-12" style="text-align:center">
-        <img src="img/logo.png" />
-    </div>
-</div>
-
 <div ng-hide="email_activated" class="alert alert-warning" role="alert">Your email is not yet activated. <a ng-click="activateNow()" class="btn btn-custom btn-sm">Activate now!</a></div>
 
-<div class="row" style="margin-top:15px">
-    <div class="col-md-6">
-        <b>ENTER PICK UP ADDRESS:</b>
-    </div>
-    <div class="col-md-6">
-        <input type="text" ng-model="client.from_address" id="client_address_from" class="form-control" />
+<form angular-validator-submit="process()" name="myForm" class="form-horizontal" novalidate angular-validator>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label"><b>ENTER PICK UP ADDRESS:</b></label>
+    <div class="col-sm-6">
+        <input type = "text"
+            name = "client_address_from"
+            id="client_address_from"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "client.from_address"
+            required-message="'This field is required.'"
+            placeholder="Enter postcode"
+            required>
     </div>
 </div>
 
-<div class="row" style="margin-top:15px">
-    <div class="col-md-6">
-        <b>ENTER DESTINATION ADDRESS:</b>
-    </div>
-    <div class="col-md-6">
-        <input type="text" ng-model="client.to_address" id="client_address_to" class="form-control" />
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label"><b>ENTER DESTINATION ADDRESS:</b></label>
+    <div class="col-sm-6">
+        <input type = "text"
+            name = "client_address_to"
+            id="client_address_to"
+            validate-on="dirty"
+            class = "form-control"
+            ng-model = "client.to_address"
+            required-message="'This field is required.'"
+            placeholder="Enter postcode"
+            required>
     </div>
 </div>
 
@@ -60,18 +68,36 @@
 </div>
 
 <div class="row" style="margin-top:15px">
-    <div class="col-md-7">
+    <div class="col-xs-7">
         <label class="control-label">Date</label>
-        <input type="text" pick-a-date="date" pick-a-date-options="{ format: 'dd/mm/yyyy' }" ng-model="client.pickup_date" placeholder="Select Date" class="form-control" />
+        <input 
+        type="text" 
+        pick-a-date="date" 
+        pick-a-date-options="{ format: 'dd/mm/yyyy' }" 
+        ng-model="client.pickup_date" 
+        placeholder="Select Date" 
+        class="form-control" 
+        required-message="'required.'"
+        required />
     </div>
-    <div class="col-md-5">
+    <div class="col-xs-5">
         <label class="control-label">Time</label>
-        <input type="text" pick-a-time="time" pick-a-time-options="{ interval: 5 }" ng-model="client.pickup_time" placeholder="Select Time" class="form-control" />
+        <input 
+        type="text" 
+        pick-a-time="time" 
+        pick-a-time-options="{ interval: 5 }" 
+        ng-model="client.pickup_time" 
+        placeholder="Select Time" 
+        class="form-control"
+        required-message="'required.'"
+        required />
     </div>
 </div>
 
 <div class="row" style="margin-top:15px;margin-bottom:15px">
     <div class="col-md-12" style="text-align:center">
-        <button type="submit" class="btn btn-custom btn-lg" ng-click="process()">MAKE BOOKING <i class="fa fa-check-square-o"></i></button>
+        <button type="submit" class="btn btn-custom btn-lg">MAKE BOOKING <i class="fa fa-check-square-o"></i></button>
     </div>
 </div>
+
+</form>
