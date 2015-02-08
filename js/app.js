@@ -111,6 +111,12 @@
 			$rootScope.backButton = false;
 			$location.path('/');
 		};
+
+		$scope.submitted = false;
+
+		$scope.proccess = function() {
+			alert('Message has been sent.');
+		}
 	});
 
 	app.controller('ContactCabCompanyController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
@@ -133,6 +139,10 @@
 			$rootScope.backButton = false;
 			$location.path('/');
 		};
+
+		$scope.proccess = function() {
+			alert('Message has been sent.');
+		}
 	});
 
 	app.controller('HomeController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
