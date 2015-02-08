@@ -1005,42 +1005,42 @@
 				localStorageService.set('lat', data.lat);
 				localStorageService.set('lng', data.lng);
 
-				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/details', sanitizeDetailsData(data));
+				var detail = $http.post('http://appycab.co.uk/api/v1/details', sanitizeDetailsData(data));
 
 				return detail;
 			},
 
 			takeMeHomeNowProcess: function(data) {
 
-				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/take-me-home-now', sanitizeTakeMeHomeData(data));
+				var detail = $http.post('http://appycab.co.uk/api/v1/take-me-home-now', sanitizeTakeMeHomeData(data));
 
 				return detail;
 			},
 
 			bookADifferentCabJourneyProcess: function(data) {
 
-				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/book-different-cab-journey', sanitizeBookADifferentCabJourneyData(data));
+				var detail = $http.post('http://appycab.co.uk/api/v1/book-different-cab-journey', sanitizeBookADifferentCabJourneyData(data));
 
 				return detail;
 			},
 
 			pickMeFromHereNowProcess: function(data) {
 
-				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/pick-me-from-here-now', sanitizePickMeFromHereNowData(data));
+				var detail = $http.post('http://appycab.co.uk/api/v1/pick-me-from-here-now', sanitizePickMeFromHereNowData(data));
 
 				return detail;
 			},
 
 			changeBooking: function(data) {
 
-				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/change-booking', sanitizeChangeBookingData(data));
+				var detail = $http.post('http://appycab.co.uk/api/v1/change-booking', sanitizeChangeBookingData(data));
 
 				return detail;
 			},
 
 			cancelCab: function(journey_id) {
 
-				var detail = $http.get('http://appycab.co.uk/appycab-api/public/api/v1/cancel-cab/'+journey_id);
+				var detail = $http.get('http://appycab.co.uk/api/v1/cancel-cab/'+journey_id);
 
 				return detail;
 			},
@@ -1049,7 +1049,7 @@
 
 				var app_id = localStorageService.get('app_id');
 
-				var detail = $http.get('http://appycab.co.uk/appycab-api/public/api/v1/is-email-activated/'+app_id);
+				var detail = $http.get('http://appycab.co.uk/api/v1/is-email-activated/'+app_id);
 
 				return detail;
 
@@ -1058,14 +1058,14 @@
 			sendActivationCode: function() {
 				var app_id = localStorageService.get('app_id');
 
-				var detail = $http.get('http://appycab.co.uk/appycab-api/public/api/v1/resend-email-activation-code/'+app_id);
+				var detail = $http.get('http://appycab.co.uk/api/v1/resend-email-activation-code/'+app_id);
 
 				return detail;
 			},
 
 			emailAttemptActivate: function(data) {
 
-				var detail = $http.post('http://appycab.co.uk/appycab-api/public/api/v1/activate-email', sanitizeEmailActivationData(data));
+				var detail = $http.post('http://appycab.co.uk/api/v1/activate-email', sanitizeEmailActivationData(data));
 
 				return detail;
 			}
