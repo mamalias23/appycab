@@ -260,6 +260,43 @@
 			getFormattedAddress(event.latLng);
 		}
 
+		$scope.already_registered = {};
+
+		$scope.sendCode = function() {
+			AppyCabService.sendActivationCode2($scope.already_registered.email).success(function(response) {
+				toaster.pop('success','',response.flash);
+			});
+		};
+
+		$scope.activateCode = function() {
+			var attempt = AppyCabService.emailAttemptActivate2($scope.already_registered);
+
+			attempt.success(function(response) {
+				//toaster.pop('success','',response.flash);
+				localStorageService.set('app_id', response.data.app_id);
+				localStorageService.set('fname', response.data.first_name);
+				localStorageService.set('lname', response.data.last_name);
+				localStorageService.set('email', response.data.email);
+				localStorageService.set('mobile', response.data.mobile);
+				localStorageService.set('address', response.data.address);
+				localStorageService.set('lat', response.data.lat);
+				localStorageService.set('lng', response.data.lng);
+
+				$location.path('/choose');
+				toaster.pop({type: 'success', title: "Success", body:"Welcome back to Appy cab. What would you like to do next?"});
+			});
+
+			attempt.error(function(response) {
+				toaster.pop('error','',response.flash);
+			});
+
+		};
+
+		$scope.alreadyRegistered = function() {
+			ngDialog.open({ template:'already_registered', scope:$scope });
+		}
+
+
 	});
 
 	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster, ngDialog) {
@@ -978,6 +1015,13 @@
         	};
         };
 
+        var sanitizeEmailActivationData2 = function (data) {
+        	return {
+                code: $sanitize(data.activation_code),
+                _token: APP_TOKEN
+        	};
+        };
+
 		return {
 			hasDetails: function() {
 				if(localStorageService.get('fname')!==null 
@@ -1063,9 +1107,23 @@
 				return detail;
 			},
 
+			sendActivationCode2: function(email) {
+
+				var detail = $http.get('http://appycab.co.uk/api/v1/resend-email-activation-code2/'+email);
+
+				return detail;
+			},
+
 			emailAttemptActivate: function(data) {
 
 				var detail = $http.post('http://appycab.co.uk/api/v1/activate-email', sanitizeEmailActivationData(data));
+
+				return detail;
+			},
+
+			emailAttemptActivate2: function(data) {
+
+				var detail = $http.post('http://appycab.co.uk/api/v1/activate-email2', sanitizeEmailActivationData2(data));
 
 				return detail;
 			}

@@ -1,9 +1,13 @@
 <div class="row" ng-hide="hasDetails">
     <div class="col-md-12" style="text-align:center">
-        <img src="img/logo.png" />
+        <img src="img/logo.png" width="50%" />
     </div>
 </div>
-
+<div class="row" ng-hide="hasDetails" style="margin-top:15px">
+     <div class="col-md-12" style="text-align:center">
+        <a class="btn btn-warning" ng-click="alreadyRegistered()">Already registered?</a>
+    </div>
+</div>
 <div class="row" style="margin-top:15px">
     <div class="col-md-12">
         <b ng-hide="hasDetails">In order to use our services you will need to register with us.</b>

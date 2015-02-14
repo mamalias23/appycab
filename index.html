@@ -131,12 +131,23 @@
                 
                 <br />
                 <ol type="1">
-                    <li>The AppyCab system is provided for use by Provincial Travel Booking Systems Ltd.</li>
-                    <li>In Version 2, The AppyCab system will automatically select the nearest and / or quickest cab to get to the pickup location as identified in the taxi ordering process.</li>
-                    <li>In Version 2 passengers will be able to identify a "Favourite" taxi company which will always receive priority, as long as the favourite taxi company has responded to the request.</li>
-                    <li>In Version 2 passengers will be able to track the progress of their taxi and monitor the arrival time.</li>
-                    <li>Once a taxi has been booked through the AppyCab system, the system will provide the contact details of the selected cab company to the passenger, as well as providing the passenger details to the taxi company.  The passenger has the opportunity to cancel or change the booking immediately after and within 30 seconds of making the booking using the AppyCab app.</li>
-                    <li>The AppyCab system relies upon the response time provided by the taxi company. Taxi companies are warned of their potential exclusion from the system should their response times be persistently optimistic. However, Provincial Travel Booking Systems Ltd. accepts no liability of any losses incurred due to the late arrival of a taxi booked through the AppyCab system.</li>
+                    <li>The AppyCab system had been developed by Provincial Travel Booking Systems Ltd.</li>
+                    <li>Once a taxi has been booked through the AppyCab system, the system will provide the
+
+contact details of the selected cab company to the passenger, as well as providing the 
+
+passenger details to the taxi company.  The passenger has the opportunity to cancel or 
+
+change the booking immediately after and within 30 seconds of making the booking using 
+
+the AppyCab app. If changes to the booking need to be made after this time passengers 
+
+should notify the taxi company directly.</li>
+                    <li>The AppyCab system relies upon the response time provided by the taxi company. Provincial
+
+Travel Booking Systems Ltd. accepts no liability of any losses incurred due to the late arrival 
+
+of a taxi booked through the AppyCab system.</li>
                 </ol>
             </div>
             <div class="ngdialog-buttons">
@@ -144,35 +155,68 @@
             </div>
         </script>
 
+        <!--already registered template for modal -->
+        <script type="text/ng-template" id="already_registered">
+            <div class="ngdialog-message">
+                <h3>Already Registered</h3>
+                <div class="row">
+                    <div class="col-md-12">
+                    <form angular-validator-submit="sendCode()" name="myForm" class="form-horizontal" novalidate angular-validator>
+                        <div class="form-group" style="margin-top:15px">
+                            <label class="col-sm-12 control-label" style="font-weight:normal">Enter your registered email address</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <input 
+                                    name="email"
+                                    type="email" 
+                                    validate-on="dirty" 
+                                    ng-model="already_registered.email"
+                                    class="form-control" 
+                                    placeholder="Email"
+                                    required-message="'This field is required.'"
+                                    required />
+
+                                    <span class="input-group-btn" style="vertical-align:top">
+                                        <button class="btn btn-warning" type="submit">Send Code</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                    <form angular-validator-submit="activateCode()" name="myForm2" class="form-horizontal" novalidate angular-validator>
+                        <div class="form-group" style="margin-top:15px">
+                            <label class="col-sm-12 control-label" style="font-weight:normal">Already have the code?</label>
+                            <div class="col-sm-12">
+                                <div class="input-group">
+                                    <input 
+                                    name="code"
+                                    type="text" 
+                                    validate-on="dirty" 
+                                    ng-model="already_registered.activation_code"
+                                    class="form-control" 
+                                    placeholder="Code"
+                                    required-message="'This field is required.'"
+                                    required />
+
+                                    <span class="input-group-btn" style="vertical-align:top">
+                                        <button class="btn btn-success" type="submit">Submit <i class="fa fa-check"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </script>
+
 
         <script type="text/javascript">
-
-        // $(".exitApp").on("click", function(e) {
-        //     e.preventDefault();
-        //     navigator.app.exitApp();
-        // });
-
-        // document.addEventListener("deviceready", onDeviceReady, false);
-        // function onDeviceReady() {
-        //     document.addEventListener("backbutton", function (e) {
-        //         e.preventDefault();
-        //     }, false );
-
-        //     if(navigator.connection.type==0)
-        //     {
-        //         alert('This application requires internet. Please connect to the internet.');
-        //         navigator.app.exitApp();
-        //     }
-        //     else if(navigator.connection.type=='none')
-        //     {
-        //         alert('This application requires internet. Please connect to the internet.');
-        //         navigator.app.exitApp();
-        //     }
-        //     else
-        //     {
-        //         //Hurray I'm online
-        //     }
-        // }
 
 
         </script>
