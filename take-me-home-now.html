@@ -53,9 +53,9 @@
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-12">
-        <map center="[{{ client.lat }},{{ client.lng }}]" on-dblclick="changedPosition(event);" disable-double-click-zoom="true">
+        <map center="{{ client.address }}" on-dblclick="changedPosition(event);" disable-double-click-zoom="true">
           <marker 
-          position="[{{ client.lat }},{{ client.lng }}]" 
+          position="{{ client.address }}" 
           draggable="true"
           on-dragend="markerDropped();"
         ></marker>
