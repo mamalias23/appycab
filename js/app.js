@@ -281,7 +281,8 @@
 				localStorageService.set('address', response.data.address);
 				localStorageService.set('lat', response.data.lat);
 				localStorageService.set('lng', response.data.lng);
-
+				
+				ngDialog.close();
 				$location.path('/choose');
 				toaster.pop({type: 'success', title: "Success", body:"Welcome back to Appy cab. What would you like to do next?"});
 			});
