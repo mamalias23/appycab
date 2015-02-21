@@ -341,7 +341,7 @@
 		}
 	});
 
-	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog) {
+	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation, ngDialog) {
 
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
@@ -362,6 +362,17 @@
 		$rootScope.journey_id = '';
 
 		$scope.email_activated = true;
+
+		geolocation.getLocation().then(function(data){
+	      $scope.current_lat = data.coords.latitude;
+	      $scope.current_lng = data.coords.longitude;
+
+	      $scope.coords = new google.maps.LatLng(data.coords.latitude, data.coords.longitude);
+
+	      getFormattedAddress($scope.coords);
+
+	    });
+
 		AppyCabService.isEmailActivated().success(function(response) {
 			if(response.activated=='no') {
 				$scope.email_activated = false;
@@ -382,9 +393,13 @@
 			lname:localStorageService.get('lname'),
 			email:localStorageService.get('email'),
 			mobile:localStorageService.get('mobile'),
-			address:localStorageService.get('address'),
-			lat:localStorageService.get('lat'),
-			lng:localStorageService.get('lng'),
+			from_address:localStorageService.get('address'),
+			from_lat:localStorageService.get('lat'),
+			from_lng:localStorageService.get('lng'),
+			to_address:localStorageService.get('address'),
+			to_lat:localStorageService.get('lat'),
+			to_lng:localStorageService.get('lng'),
+
 			pickup_date:$filter('date')(new Date(), 'dd/MM/yyyy'),
 			pickup_time:$filter('date')(new Date(), 'h:mm a'),
 		};
@@ -398,9 +413,9 @@
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
 			      document.getElementById("client_address").value = responses[0].formatted_address;
-			      $scope.client.lat = responses[0].geometry.location.lat();
-			      $scope.client.lng = responses[0].geometry.location.lng();
-			      $scope.client.address = responses[0].formatted_address;
+			      $scope.client.from_lat = responses[0].geometry.location.lat();
+			      $scope.client.from_lng = responses[0].geometry.location.lng();
+			      $scope.client.from_address = responses[0].formatted_address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -426,6 +441,14 @@
 				$rootScope.journey_from_lng = response.data.from_lng;
 				$rootScope.journey_to_lat = response.data.to_lat;
 				$rootScope.journey_to_lng = response.data.to_lng;
+
+				localStorageService.set('last_booking_pickup_address', response.data.pickup_address);
+				localStorageService.set('last_booking_from_lat', response.data.from_lat);
+				localStorageService.set('last_booking_from_lng', response.data.from_lng);
+				localStorageService.set('last_booking_destination_address', response.data.destination_address);
+				localStorageService.set('last_booking_to_lat', response.data.to_lat);
+				localStorageService.set('last_booking_to_lng', response.data.to_lng);
+
 				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
@@ -485,9 +508,9 @@
 			from_lat:localStorageService.get('lat'),
 			from_lng:localStorageService.get('lng'),
 
-			to_address:localStorageService.get('address'),
-			to_lat:localStorageService.get('lat'),
-			to_lng:localStorageService.get('lng'),
+			to_address:localStorageService.get('last_booking_destination_address'),
+			to_lat:localStorageService.get('last_booking_to_lat'),
+			to_lng:localStorageService.get('last_booking_to_lng'),
 
 			pickup_date:$filter('date')(new Date(), 'dd/MM/yyyy'),
 			pickup_time:$filter('date')(new Date(), 'h:mm a'),
@@ -557,6 +580,14 @@
 				$rootScope.journey_from_lng = response.data.from_lng;
 				$rootScope.journey_to_lat = response.data.to_lat;
 				$rootScope.journey_to_lng = response.data.to_lng;
+
+				localStorageService.set('last_booking_pickup_address', response.data.pickup_address);
+				localStorageService.set('last_booking_from_lat', response.data.from_lat);
+				localStorageService.set('last_booking_from_lng', response.data.from_lng);
+				localStorageService.set('last_booking_destination_address', response.data.destination_address);
+				localStorageService.set('last_booking_to_lat', response.data.to_lat);
+				localStorageService.set('last_booking_to_lng', response.data.to_lng);
+
 				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
@@ -678,6 +709,14 @@
 				$rootScope.journey_from_lng = response.data.from_lng;
 				$rootScope.journey_to_lat = response.data.to_lat;
 				$rootScope.journey_to_lng = response.data.to_lng;
+
+				localStorageService.set('last_booking_pickup_address', response.data.pickup_address);
+				localStorageService.set('last_booking_from_lat', response.data.from_lat);
+				localStorageService.set('last_booking_from_lng', response.data.from_lng);
+				localStorageService.set('last_booking_destination_address', response.data.destination_address);
+				localStorageService.set('last_booking_to_lat', response.data.to_lat);
+				localStorageService.set('last_booking_to_lng', response.data.to_lng);
+
 				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
@@ -800,6 +839,14 @@
 				$rootScope.journey_from_lng = response.data.from_lng;
 				$rootScope.journey_to_lat = response.data.to_lat;
 				$rootScope.journey_to_lng = response.data.to_lng;
+
+				localStorageService.set('last_booking_pickup_address', response.data.pickup_address);
+				localStorageService.set('last_booking_from_lat', response.data.from_lat);
+				localStorageService.set('last_booking_from_lng', response.data.from_lng);
+				localStorageService.set('last_booking_destination_address', response.data.destination_address);
+				localStorageService.set('last_booking_to_lat', response.data.to_lat);
+				localStorageService.set('last_booking_to_lng', response.data.to_lng);
+
 				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
@@ -941,9 +988,12 @@
                 lname: $sanitize(data.lname),
                 email: $sanitize(data.email),
                 mobile: $sanitize(data.mobile),
-                address: $sanitize(data.address),
-                lat: $sanitize(data.lat),
-                lng: $sanitize(data.lng),
+                from_address: $sanitize(data.from_address),
+                from_lat: $sanitize(data.from_lat),
+                from_lng: $sanitize(data.from_lng),
+                to_address: $sanitize(data.to_address),
+                to_lat: $sanitize(data.to_lat),
+                to_lng: $sanitize(data.to_lng),
                 pickup_date: $sanitize(data.pickup_date),
                 pickup_time: $sanitize(data.pickup_time),
                 _token: APP_TOKEN
