@@ -44,18 +44,18 @@
             id="client_address"
             validate-on="dirty"
             class = "form-control"
-            ng-model = "client.address"
+            ng-model = "client.from_address"
             required-message="'This field is required.'"
             placeholder="Enter your postcode"
-            required>
+            data-required="true">
     </div>
 </div>
 
 <div class="row" style="margin-top:15px">
     <div class="col-md-12">
-        <map center="{{ client.address }}" on-dblclick="changedPosition(event);" disable-double-click-zoom="true">
+        <map center="{{ client.from_address }}" on-dblclick="changedPosition(event);" disable-double-click-zoom="true">
           <marker 
-          position="{{ client.address }}" 
+          position="{{ client.from_address }}" 
           draggable="true"
           on-dragend="markerDropped();"
         ></marker>
