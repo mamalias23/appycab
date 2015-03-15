@@ -4,10 +4,10 @@
         xmlns:android   = "http://schemas.android.com/apk/res/android"
         id        = "com.appycab.app"
         version   = "1.0">
-    <name>Appy Cab</name>
+    <name>AppyCab UK</name>
 
     <description>
-        Appy Cab
+        Book the next available local cab without the need to make a phone call.
     </description>
 
     <author href="http://appycab.co.uk" email="support@appycab.com">
