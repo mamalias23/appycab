@@ -82,7 +82,7 @@
             class = "form-control"
             ng-model = "client.address"
             required-message="'This field is required.'"
-            ng-pattern="/(([A-Z]{1,2}[0-9]{1,2})|([A-Z]{1,2}[0-9][A-Z]))\s?([0-9][A-Z]{2})/"
+            ng-pattern="/(([A-Z]{1,2}[0-9]{1,2})|([A-Z]{1,2}[0-9][A-Z]))\s?([0-9][A-Z]{2})/i"
             invalid-message="'Please enter valid UK address with postcode'"
             placeholder="Enter your postcode"
             required>
