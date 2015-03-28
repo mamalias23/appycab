@@ -91,19 +91,15 @@
 		$rootScope.page_title="About AppyCab";
 	});
 
-	app.controller('ContactUserFeedbackController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+	app.controller('ContactUserFeedbackController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster) {
 		$rootScope.page_title="Contact – App Users";
 		$rootScope.backButton = true;
 		$rootScope.hasDetails = AppyCabService.hasDetails();
-		$scope.client = {
-			app_id:localStorageService.get('app_id'),
-			fname:localStorageService.get('fname'),
-			lname:localStorageService.get('lname'),
+
+		$scope.contact = {
 			email:localStorageService.get('email'),
-			mobile:localStorageService.get('mobile'),
-			address:localStorageService.get('address'),
-			lat:localStorageService.get('lat'),
-			lng:localStorageService.get('lng'),
+			name:localStorageService.get('fname') + " " + localStorageService.get('lname'),
+			comment:""
 		};
 
 		$rootScope.back = function() {
@@ -112,26 +108,31 @@
 			$location.path('/');
 		};
 
-		$scope.submitted = false;
+		$scope.process = function() {
+			var contact = AppyCabService.contactSubmit('user', $scope.contact);
 
-		$scope.proccess = function() {
-			alert('Message has been sent.');
+			contact.success(function(response) {
+				toaster.pop({type: 'success', title: "Success", body:"Contact has been submitted, we will get back to you soon!"});
+				$scope.contact.comment="";
+			});
+
+			contact.error(function(response) {
+				toaster.pop({type: 'error', title: "Error", body:"Something went wrong, you can contact us directly via email: taxi-enquiry@appycab.co.uk"});
+			});
 		}
 	});
 
-	app.controller('ContactCabCompanyController', function($scope, $rootScope, $location, localStorageService, AppyCabService) {
+	app.controller('ContactCabCompanyController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster) {
 		$rootScope.page_title="Contact – Taxi Firms";
 		$rootScope.backButton = true;
 		$rootScope.hasDetails = AppyCabService.hasDetails();
-		$scope.client = {
-			app_id:localStorageService.get('app_id'),
-			fname:localStorageService.get('fname'),
-			lname:localStorageService.get('lname'),
+
+		$scope.contact = {
 			email:localStorageService.get('email'),
-			mobile:localStorageService.get('mobile'),
-			address:localStorageService.get('address'),
-			lat:localStorageService.get('lat'),
-			lng:localStorageService.get('lng'),
+			name:localStorageService.get('fname') + " " + localStorageService.get('lname'),
+			taxi_name:"",
+			to_know:0,
+			comment:""
 		};
 
 		$rootScope.back = function() {
@@ -140,8 +141,19 @@
 			$location.path('/');
 		};
 
-		$scope.proccess = function() {
-			alert('Message has been sent.');
+		$scope.process = function() {
+			var contact = AppyCabService.contactSubmit('company', $scope.contact);
+
+			contact.success(function(response) {
+				toaster.pop({type: 'success', title: "Success", body:"Contact has been submitted, we will get back to you soon!"});
+				$scope.contact.comment="";
+				$scope.contact.taxi_name="";
+				$scope.contact.to_know="";
+			});
+
+			contact.error(function(response) {
+				toaster.pop({type: 'error', title: "Error", body:"Something went wrong, you can contact us directly via email: taxi-enquiry@appycab.co.uk"});
+			});
 		}
 	});
 
@@ -1073,6 +1085,28 @@
         	};
         };
 
+        var sanitizeContactDataUser = function (data) {
+        	return {
+        		type: "user",
+                email: $sanitize(data.email),
+                name: $sanitize(data.name),
+                comment: $sanitize(data.comment),
+                _token: APP_TOKEN
+        	};
+        };
+
+        var sanitizeContactDataCompany = function (data) {
+        	return {
+        		type: "company",
+        		email: $sanitize(data.email),
+                name: $sanitize(data.name),
+                taxi_company_name: $sanitize(data.taxi_name),
+                to_know: $sanitize(parseInt(data.to_know)),
+                comment: $sanitize(data.comment),
+                _token: APP_TOKEN
+        	};
+        };
+
 		return {
 			hasDetails: function() {
 				if(localStorageService.get('fname')!==null 
@@ -1175,6 +1209,16 @@
 			emailAttemptActivate2: function(data) {
 
 				var detail = $http.post('http://appycab.co.uk/api/v1/activate-email2', sanitizeEmailActivationData2(data));
+
+				return detail;
+			},
+
+			contactSubmit: function(type, data) {
+
+				if(type=='user')
+					var detail = $http.post('http://appycab.co.uk/api/v1/contact-submit', sanitizeContactDataUser(data));
+				else
+					var detail = $http.post('http://appycab.co.uk/api/v1/contact-submit', sanitizeContactDataCompany(data));
 
 				return detail;
 			}
