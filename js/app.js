@@ -330,12 +330,12 @@
 		$rootScope.backButton = AppyCabService.hasDetails() ? false:true;
 		$rootScope.pageClass='page';
 
-		$scope.email_activated = true;
-		AppyCabService.isEmailActivated().success(function(response) {
+		$scope.mobile_activated = true;
+		AppyCabService.isMobileActivated().success(function(response) {
 			if(response.activated=='no') {
-				$scope.email_activated = false;
+				$scope.mobile_activated = false;
 			} else {
-				$scope.email_activated = true;
+				$scope.mobile_activated = true;
 			}
 		});
 
@@ -353,7 +353,7 @@
 		}
 	});
 
-	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation, ngDialog) {
+	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation, ngDialog, toaster) {
 
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
@@ -373,7 +373,7 @@
 
 		$rootScope.journey_id = '';
 
-		$scope.email_activated = true;
+		$scope.mobile_activated = true;
 
 		geolocation.getLocation().then(function(data){
 	      $scope.current_lat = data.coords.latitude;
@@ -385,11 +385,11 @@
 
 	    });
 
-		AppyCabService.isEmailActivated().success(function(response) {
+		AppyCabService.isMobileActivated().success(function(response) {
 			if(response.activated=='no') {
-				$scope.email_activated = false;
+				$scope.mobile_activated = false;
 			} else {
-				$scope.email_activated = true;
+				$scope.mobile_activated = true;
 			}
 		});
 
@@ -465,9 +465,16 @@
 				$location.path('/make-booking');
 			});
 		}
+
+		$scope.activateNow = function() {
+			AppyCabService.sendActivationCode().success(function(response) {
+				$location.path('/activate-email');
+				toaster.pop('success','',response.flash);
+			});
+		}
 	});
 
-	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation, ngDialog) {
+	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation, ngDialog, toaster) {
 		
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
@@ -495,12 +502,12 @@
 
 	    });
 
-	    $scope.email_activated = true;
-		AppyCabService.isEmailActivated().success(function(response) {
+	    $scope.mobile_activated = true;
+		AppyCabService.isMobileActivated().success(function(response) {
 			if(response.activated=='no') {
-				$scope.email_activated = false;
+				$scope.mobile_activated = false;
 			} else {
-				$scope.email_activated = true;
+				$scope.mobile_activated = true;
 			}
 		});
 
@@ -604,9 +611,16 @@
 				$location.path('/make-booking');
 			});
 		}
+
+		$scope.activateNow = function() {
+			AppyCabService.sendActivationCode().success(function(response) {
+				$location.path('/activate-email');
+				toaster.pop('success','',response.flash);
+			});
+		}
 	});
 
-	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog) {
+	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog, toaster) {
 		
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
@@ -624,12 +638,12 @@
 		$rootScope.backButton = true;
 		$rootScope.pageClass='page';
 
-		$scope.email_activated = true;
-		AppyCabService.isEmailActivated().success(function(response) {
+		$scope.mobile_activated = true;
+		AppyCabService.isMobileActivated().success(function(response) {
 			if(response.activated=='no') {
-				$scope.email_activated = false;
+				$scope.mobile_activated = false;
 			} else {
-				$scope.email_activated = true;
+				$scope.mobile_activated = true;
 			}
 		});
 
@@ -733,9 +747,16 @@
 				$location.path('/make-booking');
 			});
 		}
+
+		$scope.activateNow = function() {
+			AppyCabService.sendActivationCode().success(function(response) {
+				$location.path('/activate-email');
+				toaster.pop('success','',response.flash);
+			});
+		}
 	});
 
-	app.controller('ChangeBookingController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog) {
+	app.controller('ChangeBookingController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog, toaster) {
 		
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
@@ -753,12 +774,12 @@
 		$rootScope.backButton = false;
 		$rootScope.pageClass='page';
 
-		$scope.email_activated = true;
-		AppyCabService.isEmailActivated().success(function(response) {
+		$scope.mobile_activated = true;
+		AppyCabService.isMobileActivated().success(function(response) {
 			if(response.activated=='no') {
-				$scope.email_activated = false;
+				$scope.mobile_activated = false;
 			} else {
-				$scope.email_activated = true;
+				$scope.mobile_activated = true;
 			}
 		});
 
@@ -863,6 +884,13 @@
 				$location.path('/make-booking');
 			});
 		}
+
+		$scope.activateNow = function() {
+			AppyCabService.sendActivationCode().success(function(response) {
+				$location.path('/activate-email');
+				toaster.pop('success','',response.flash);
+			});
+		}
 	});
 
 	app.controller('MakeBookingController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, toaster, ngDialog) {
@@ -921,6 +949,13 @@
 
 	        $scope.$apply();
 	    };
+
+	    $scope.activateNow = function() {
+			AppyCabService.sendActivationCode().success(function(response) {
+				$location.path('/activate-email');
+				toaster.pop('success','',response.flash);
+			});
+		}
 
 
 	});
@@ -1184,17 +1219,27 @@
 
 			},
 
+			isMobileActivated: function() {
+
+				var app_id = localStorageService.get('app_id');
+
+				var detail = $http.get('http://appycab.co.uk/api/v1/is-mobile-activated/'+app_id);
+
+				return detail;
+
+			},
+
 			sendActivationCode: function() {
 				var app_id = localStorageService.get('app_id');
 
-				var detail = $http.get('http://appycab.co.uk/api/v1/resend-email-activation-code/'+app_id);
+				var detail = $http.get('http://appycab.co.uk/api/v1/resend-mobile-activation-code/'+app_id);
 
 				return detail;
 			},
 
 			sendActivationCode2: function(email) {
 
-				var detail = $http.get('http://appycab.co.uk/api/v1/resend-email-activation-code2/'+email);
+				var detail = $http.get('http://appycab.co.uk/api/v1/resend-mobile-activation-code2/'+email);
 
 				return detail;
 			},

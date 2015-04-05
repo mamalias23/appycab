@@ -1,4 +1,4 @@
-<div ng-hide="email_activated" class="alert alert-warning" role="alert">Your email is not yet activated. <a ng-click="activateNow()" class="btn btn-custom btn-sm">Activate now!</a></div>
+<div ng-hide="mobile_activated" class="alert alert-warning" role="alert">Your mobile number is not yet activated. <a ng-click="activateNow()" class="btn btn-custom btn-sm">Activate now!</a></div>
 
 <form angular-validator-submit="process()" name="myForm" class="form-horizontal" novalidate angular-validator>
 <div class="row" style="margin-top:15px">
@@ -67,7 +67,7 @@
 
 <div class="row" style="margin-top:15px;margin-bottom:15px">
     <div class="col-md-12" style="text-align:center">
-        <button type="submit" class="btn btn-custom btn-lg">MAKE BOOKING <i class="fa fa-check-square-o"></i></button>
+        <button type="submit" class="btn btn-custom btn-lg" ng-disabled="!mobile_activated">MAKE BOOKING <i class="fa fa-check-square-o"></i></button>
     </div>
 </div>
 </form>
