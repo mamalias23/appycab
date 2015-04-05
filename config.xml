@@ -17,6 +17,7 @@
     <gap:plugin name="org.apache.cordova.contacts" />
     <gap:plugin name="org.apache.cordova.geolocation" />
     <gap:plugin name="org.apache.cordova.globalization" />
+    <gap:plugin name="com.phonegap.plugin.statusbar" version="1.1.0" />
 
     <preference name="phonegap-version"           value="3.7.0" />           
     
@@ -26,7 +27,8 @@
     <preference name="ios-statusbarstyle"         value="black-opaque" />  
     <preference name="detect-data-types"          value="true" />            
     <preference name="show-splash-screen-spinner" value="true" />       
-    <preference name="auto-hide-splash-screen"    value="true" />  
+    <preference name="auto-hide-splash-screen"    value="true" />
+    <preference name="StatusBarOverlaysWebView"   value="false" />
    
     <preference name="android-minSdkVersion"      value="7" />    
     <preference name="backupwebstorage" value="none"/>
