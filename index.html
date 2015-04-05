@@ -163,17 +163,19 @@ of a taxi booked through the AppyCab system.</li>
                     <div class="col-md-12">
                     <form angular-validator-submit="sendCode()" name="myForm" class="form-horizontal" novalidate angular-validator>
                         <div class="form-group" style="margin-top:15px">
-                            <label class="col-sm-12 control-label" style="font-weight:normal">Enter your registered email address</label>
+                            <label class="col-sm-12 control-label" style="font-weight:normal">Enter your registered mobile number</label>
                             <div class="col-sm-12">
                                 <div class="input-group">
                                     <input 
-                                    name="email"
-                                    type="email" 
+                                    name="mobile"
+                                    type="text" 
                                     validate-on="dirty" 
-                                    ng-model="already_registered.email"
+                                    ng-model="already_registered.mobile"
                                     class="form-control" 
-                                    placeholder="Email"
+                                    placeholder="Mobile number"
                                     required-message="'This field is required.'"
+                                    ng-pattern="/^(((\+44\s?\d{4}|\(?0\d{4}\)?)\s?\d{3}\s?\d{3})|((\+44\s?\d{3}|\(?0\d{3}\)?)\s?\d{3}\s?\d{4})|((\+44\s?\d{2}|\(?0\d{2}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/"
+                                    invalid-message="'Please enter valid UK mobile number'"
                                     required />
 
                                     <span class="input-group-btn" style="vertical-align:top">

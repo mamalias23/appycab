@@ -275,8 +275,12 @@
 		$scope.already_registered = {};
 
 		$scope.sendCode = function() {
-			AppyCabService.sendActivationCode2($scope.already_registered.email).success(function(response) {
+			var sendcode = AppyCabService.sendActivationCode2($scope.already_registered.mobile);
+			sendcode.success(function(response) {
 				toaster.pop('success','',response.flash);
+			});
+			sendcode.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		};
 
@@ -346,9 +350,13 @@
 		};
 
 		$scope.activateNow = function() {
-			AppyCabService.sendActivationCode().success(function(response) {
+			var activatenow = AppyCabService.sendActivationCode();
+			activatenow.success(function(response) {
 				$location.path('/activate-email');
 				toaster.pop('success','',response.flash);
+			});
+			activatenow.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		}
 	});
@@ -467,9 +475,13 @@
 		}
 
 		$scope.activateNow = function() {
-			AppyCabService.sendActivationCode().success(function(response) {
+			var activatenow = AppyCabService.sendActivationCode();
+			activatenow.success(function(response) {
 				$location.path('/activate-email');
 				toaster.pop('success','',response.flash);
+			});
+			activatenow.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		}
 	});
@@ -613,9 +625,13 @@
 		}
 
 		$scope.activateNow = function() {
-			AppyCabService.sendActivationCode().success(function(response) {
+			var activatenow = AppyCabService.sendActivationCode();
+			activatenow.success(function(response) {
 				$location.path('/activate-email');
 				toaster.pop('success','',response.flash);
+			});
+			activatenow.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		}
 	});
@@ -749,9 +765,13 @@
 		}
 
 		$scope.activateNow = function() {
-			AppyCabService.sendActivationCode().success(function(response) {
+			var activatenow = AppyCabService.sendActivationCode();
+			activatenow.success(function(response) {
 				$location.path('/activate-email');
 				toaster.pop('success','',response.flash);
+			});
+			activatenow.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		}
 	});
@@ -886,9 +906,13 @@
 		}
 
 		$scope.activateNow = function() {
-			AppyCabService.sendActivationCode().success(function(response) {
+			var activatenow = AppyCabService.sendActivationCode();
+			activatenow.success(function(response) {
 				$location.path('/activate-email');
 				toaster.pop('success','',response.flash);
+			});
+			activatenow.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		}
 	});
@@ -951,9 +975,13 @@
 	    };
 
 	    $scope.activateNow = function() {
-			AppyCabService.sendActivationCode().success(function(response) {
+			var activatenow = AppyCabService.sendActivationCode();
+			activatenow.success(function(response) {
 				$location.path('/activate-email');
 				toaster.pop('success','',response.flash);
+			});
+			activatenow.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		}
 
@@ -989,10 +1017,15 @@
 		};
 
 		$scope.activateNow = function() {
-			AppyCabService.sendActivationCode().success(function(response) {
+			var activatenow = AppyCabService.sendActivationCode();
+			activatenow.success(function(response) {
+				$location.path('/activate-email');
 				toaster.pop('success','',response.flash);
 			});
-		};
+			activatenow.error(function(response) {
+				toaster.pop('error','',response.flash);
+			});
+		}
 
 		$scope.activate = function() {
 			var attempt = AppyCabService.emailAttemptActivate($scope.client);
@@ -1237,9 +1270,9 @@
 				return detail;
 			},
 
-			sendActivationCode2: function(email) {
+			sendActivationCode2: function(mobile) {
 
-				var detail = $http.get('http://appycab.co.uk/api/v1/resend-mobile-activation-code2/'+email);
+				var detail = $http.get('http://appycab.co.uk/api/v1/resend-mobile-activation-code2/'+mobile);
 
 				return detail;
 			},
