@@ -233,10 +233,22 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      document.getElementById("client_address").value = responses[0].formatted_address;
+			    	var establishment="null";
+			      	for (var i=0; i<responses[0].address_components.length; i++) {
+		            	for (var b=0;b<responses[0].address_components[i].types.length;b++) {
+			            //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			                if (responses[0].address_components[i].types[b] == "establishment") {
+			                    //this is the object you are looking for
+			                    establishment= responses[0].address_components[i].short_name;
+			                    break;
+			                }
+			            }
+			      	}
+			      	var address = (responses[0].formatted_address).replace(establishment+', ','');
+			      document.getElementById("client_address").value = address;
 			      $scope.client.lat = responses[0].geometry.location.lat();
 			      $scope.client.lng = responses[0].geometry.location.lng();
-			      $scope.client.address = responses[0].formatted_address;
+			      $scope.client.address = address;
 			    } else {
 			      //alert('Cannot determine address at this location.');
 			    }
@@ -432,10 +444,22 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      document.getElementById("client_address").value = responses[0].formatted_address;
+			    	var establishment="null";
+			      	for (var i=0; i<responses[0].address_components.length; i++) {
+		            	for (var b=0;b<responses[0].address_components[i].types.length;b++) {
+			            //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			                if (responses[0].address_components[i].types[b] == "establishment") {
+			                    //this is the object you are looking for
+			                    establishment= responses[0].address_components[i].short_name;
+			                    break;
+			                }
+			            }
+			      	}
+			      	var address = (responses[0].formatted_address).replace(establishment+', ','');
+			      document.getElementById("client_address").value = address;
 			      $scope.client.from_lat = responses[0].geometry.location.lat();
 			      $scope.client.from_lng = responses[0].geometry.location.lng();
-			      $scope.client.from_address = responses[0].formatted_address;
+			      $scope.client.from_address = address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -555,10 +579,22 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      document.getElementById("client_address_from").value = responses[0].formatted_address;
-			      $scope.client.from_lat = responses[0].geometry.location.lat();
-			      $scope.client.from_lng = responses[0].geometry.location.lng();
-			      $scope.client.from_address = responses[0].formatted_address;
+			    	var establishment="null";
+			      	for (var i=0; i<responses[0].address_components.length; i++) {
+		            	for (var b=0;b<responses[0].address_components[i].types.length;b++) {
+			            //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			                if (responses[0].address_components[i].types[b] == "establishment") {
+			                    //this is the object you are looking for
+			                    establishment= responses[0].address_components[i].short_name;
+			                    break;
+			                }
+			            }
+			      	}
+			      	var address = (responses[0].formatted_address).replace(establishment+', ','');
+			      	document.getElementById("client_address_from").value = address;
+			      	$scope.client.from_lat = responses[0].geometry.location.lat();
+			      	$scope.client.from_lng = responses[0].geometry.location.lng();
+			      	$scope.client.from_address = address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -573,10 +609,22 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      document.getElementById("client_address_to").value = responses[0].formatted_address;
+			    	var establishment="null";
+			      	for (var i=0; i<responses[0].address_components.length; i++) {
+		            	for (var b=0;b<responses[0].address_components[i].types.length;b++) {
+			            //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			                if (responses[0].address_components[i].types[b] == "establishment") {
+			                    //this is the object you are looking for
+			                    establishment= responses[0].address_components[i].short_name;
+			                    break;
+			                }
+			            }
+			      	}
+			      	var address = (responses[0].formatted_address).replace(establishment+', ','');
+			      	document.getElementById("client_address_to").value = address;
 			      $scope.client.to_lat = responses[0].geometry.location.lat();
 			      $scope.client.to_lng = responses[0].geometry.location.lng();
-			      $scope.client.to_address = responses[0].formatted_address;
+			      $scope.client.to_address = address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -695,10 +743,22 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      document.getElementById("client_address_from").value = responses[0].formatted_address;
+			    	var establishment="null";
+			      	for (var i=0; i<responses[0].address_components.length; i++) {
+		            	for (var b=0;b<responses[0].address_components[i].types.length;b++) {
+			            //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			                if (responses[0].address_components[i].types[b] == "establishment") {
+			                    //this is the object you are looking for
+			                    establishment= responses[0].address_components[i].short_name;
+			                    break;
+			                }
+			            }
+			      	}
+			      	var address = (responses[0].formatted_address).replace(establishment+', ','');
+			      document.getElementById("client_address_from").value = address;
 			      $scope.client.from_lat = responses[0].geometry.location.lat();
 			      $scope.client.from_lng = responses[0].geometry.location.lng();
-			      $scope.client.from_address = responses[0].formatted_address;
+			      $scope.client.from_address = address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -713,10 +773,22 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      document.getElementById("client_address_to").value = responses[0].formatted_address;
+			    	var establishment="null";
+			      	for (var i=0; i<responses[0].address_components.length; i++) {
+		            	for (var b=0;b<responses[0].address_components[i].types.length;b++) {
+			            //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			                if (responses[0].address_components[i].types[b] == "establishment") {
+			                    //this is the object you are looking for
+			                    establishment= responses[0].address_components[i].short_name;
+			                    break;
+			                }
+			            }
+			      	}
+			      	var address = (responses[0].formatted_address).replace(establishment+', ','');
+			      document.getElementById("client_address_to").value = address;
 			      $scope.client.to_lat = responses[0].geometry.location.lat();
 			      $scope.client.to_lng = responses[0].geometry.location.lng();
-			      $scope.client.to_address = responses[0].formatted_address;
+			      $scope.client.to_address = address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -836,10 +908,22 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      document.getElementById("client_address_from").value = responses[0].formatted_address;
+			    	var establishment="null";
+			      	for (var i=0; i<responses[0].address_components.length; i++) {
+		            	for (var b=0;b<responses[0].address_components[i].types.length;b++) {
+			            //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			                if (responses[0].address_components[i].types[b] == "establishment") {
+			                    //this is the object you are looking for
+			                    establishment= responses[0].address_components[i].short_name;
+			                    break;
+			                }
+			            }
+			      	}
+			      	var address = (responses[0].formatted_address).replace(establishment+', ','');
+			      document.getElementById("client_address_from").value = address;
 			      $scope.client.from_lat = responses[0].geometry.location.lat();
 			      $scope.client.from_lng = responses[0].geometry.location.lng();
-			      $scope.client.from_address = responses[0].formatted_address;
+			      $scope.client.from_address = address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
@@ -854,10 +938,22 @@
 			   	latLng: pos
 			}, function(responses) {
 			    if (responses && responses.length > 0) {
-			      document.getElementById("client_address_to").value = responses[0].formatted_address;
+			    	var establishment="null";
+			      	for (var i=0; i<responses[0].address_components.length; i++) {
+		            	for (var b=0;b<responses[0].address_components[i].types.length;b++) {
+			            //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+			                if (responses[0].address_components[i].types[b] == "establishment") {
+			                    //this is the object you are looking for
+			                    establishment= responses[0].address_components[i].short_name;
+			                    break;
+			                }
+			            }
+			      	}
+			      	var address = (responses[0].formatted_address).replace(establishment+', ','');
+			      document.getElementById("client_address_to").value = address;
 			      $scope.client.to_lat = responses[0].geometry.location.lat();
 			      $scope.client.to_lng = responses[0].geometry.location.lng();
-			      $scope.client.to_address = responses[0].formatted_address;
+			      $scope.client.to_address = address;
 			    } else {
 			      alert('Cannot determine address at this location.');
 			    }
