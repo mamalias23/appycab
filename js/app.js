@@ -190,6 +190,11 @@
 			email:localStorageService.get('email'),
 			mobile:localStorageService.get('mobile'),
 			address:localStorageService.get('address'),
+			postcode:localStorageService.get('postcode'),
+			house_number:localStorageService.get('house_number'),
+			address_line1:localStorageService.get('address_line1'),
+			address_line2:localStorageService.get('address_line2'),
+			county:localStorageService.get('county'),
 			lat:localStorageService.get('lat'),
 			lng:localStorageService.get('lng'),
 		};
@@ -330,6 +335,10 @@
 
 	app.controller('ChooseController', function($scope, $rootScope, $location, localStorageService, AppyCabService, toaster, ngDialog) {
 
+		if(!AppyCabService.hasDetails()) {
+			$location.path('/details');
+		}
+
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
 			
@@ -374,6 +383,10 @@
 	});
 
 	app.controller('TakeMeHomeNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation, ngDialog, toaster) {
+
+		if(!AppyCabService.hasDetails()) {
+			$location.path('/details');
+		}
 
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
@@ -512,6 +525,9 @@
 
 	app.controller('PickMeFromHereNowController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, geolocation, ngDialog, toaster) {
 		
+		if(!AppyCabService.hasDetails()) {
+			$location.path('/details');
+		}
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
 			
@@ -686,6 +702,10 @@
 
 	app.controller('BookADifferentCabJourneyController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog, toaster) {
 		
+		if(!AppyCabService.hasDetails()) {
+			$location.path('/details');
+		}
+
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
 			
@@ -850,6 +870,10 @@
 
 	app.controller('ChangeBookingController', function($scope, $rootScope, $location, $filter, localStorageService, AppyCabService, ngDialog, toaster) {
 		
+		if(!AppyCabService.hasDetails()) {
+			$location.path('/details');
+		}
+
 		//check if agreed to terms
 		if(!localStorageService.get('has_agreed_to_terms')) {
 			
@@ -1279,7 +1303,12 @@
 					&& localStorageService.get('mobile')!==null 
 					&& localStorageService.get('address')!==null 
 					&& localStorageService.get('lat')!==null 
-					&& localStorageService.get('lng')!==null) {
+					&& localStorageService.get('lng')!==null
+					&& localStorageService.get('postcode')!==null
+					&& localStorageService.get('house_number')!==null
+					&& localStorageService.get('address_line1')!==null
+					&& localStorageService.get('address_line2')!==null
+					&& localStorageService.get('county')!==null) {
 
 					return true;
 				} else {
@@ -1295,6 +1324,11 @@
 				localStorageService.set('email', data.email);
 				localStorageService.set('mobile', data.mobile);
 				localStorageService.set('address', data.address);
+				localStorageService.set('postcode',data.address);
+				localStorageService.set('house_number',data.house_number);
+				localStorageService.set('address_line1',data.address_line1);
+				localStorageService.set('address_line2',data.address_line2);
+				localStorageService.set('county',data.county);
 				localStorageService.set('lat', data.lat);
 				localStorageService.set('lng', data.lng);
 

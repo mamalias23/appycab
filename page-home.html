@@ -15,7 +15,7 @@
     </div>
 </div>
 
-<form angular-validator-submit="process()" name="myForm" class="form-horizontal" novalidate angular-validator>
+<form angular-validator-submit="process()" name="myForm" id="myForm" class="form-horizontal" novalidate angular-validator>
 
 <div class="form-group" style="margin-top:15px">
     <label class="col-sm-6 control-label">First Name:</label>
@@ -73,6 +73,94 @@
 </div>
 
 <div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Post Code:</label>
+    <div class="input-group" style="padding-left:15px;padding-right:15px">
+        <input 
+            validate-on="dirty" 
+            required-message="'This field is required.'" 
+            type="text" 
+            name="postcode" 
+            id="postcode" 
+            ng-model="client.postcode"
+            class="form-control" 
+            placeholder="Postcode" 
+            required 
+            autocomplete="off">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" onclick="cp_obj_1.doHouseSearch();">Find my address</button>
+        </span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6"></div>
+    <div class="col-sm-6" id="crafty_postcode_result_display_1"></div>
+</div>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">House name/number:</label>
+    <div class="col-sm-6">
+        <input 
+            type="text" 
+            name="streetnumber" 
+            id="streetnumber" 
+            ng-model="client.house_number"
+            validate-on="dirty" 
+            required-message="'This field is required.'" 
+            class="form-control" 
+            required>
+    </div>
+</div>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Address Line 1:</label>
+    <div class="col-sm-6">
+        <input 
+            type="text" 
+            name="address1" 
+            id="address1" 
+            ng-model="client.address_line1"
+            validate-on="dirty" 
+            required-message="'This field is required.'" 
+            class="form-control" 
+            required>
+
+    </div>
+</div>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">Address Line 2:</label>
+    <div class="col-sm-6">
+        <input 
+            type="text"
+            name="address2" 
+            id="address2" 
+            ng-model="client.address_line2"
+            validate-on="dirty" 
+            required-message="'This field is required.'" 
+            class="form-control" 
+            required>
+            
+            <input type="hidden" value="" name="town" id="town">
+    </div>
+</div>
+
+<div class="form-group" style="margin-top:15px">
+    <label class="col-sm-6 control-label">County:</label>
+    <div class="col-sm-6">
+        <input 
+            type="text"
+            name="county" 
+            id="county" 
+            ng-model="client.county"
+            validate-on="dirty" 
+            required-message="'This field is required.'" 
+            class="form-control" 
+            required>
+    </div>
+</div>
+
+<div class="form-group" style="margin-top:15px">
     <label class="col-sm-6 control-label">Home Address: <i ng-click="addressRequiredModal()" class="fa fa-question-circle" style="font-size:20px;color:#FF8629"></i></label>
     <div class="col-sm-6">
         <input type = "text"
@@ -85,7 +173,8 @@
             ng-pattern="/(([A-Z]{1,2}[0-9]{1,2})|([A-Z]{1,2}[0-9][A-Z]))\s?([0-9][A-Z]{2})/i"
             invalid-message="'Please enter valid UK address with postcode'"
             placeholder="Enter your postcode"
-            required>
+            required
+            readonly="readonly">
     </div>
 </div>
 

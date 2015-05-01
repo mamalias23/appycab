@@ -34,6 +34,61 @@
         <script type="text/javascript" src="bower_components/angular-native-picker/build/angular-datepicker.js"></script>
         <script type="text/javascript" src="bower_components/angularjs-geolocation/dist/angularjs-geolocation.min.js"></script>
         <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="js/crafty_postcode_big.class.js"></script>
+        <script>
+            var cp_access_token = "71c9b-ab8b5-82a6a-01253 "; // ***** DON'T FORGET TO PUT YOUR ACCESS TOKEN HERE IN PLACE OF X's !!!! *****
+            var cp_obj_1 = CraftyPostcodeCreate();
+            // generic setup
+            cp_obj_1.set("access_token", cp_access_token);
+            cp_obj_1.set("first_res_line", "----- please select your address ----");
+            cp_obj_1.set("res_autoselect", "0");
+            cp_obj_1.set("result_elem_id", "crafty_postcode_result_display_1");
+            cp_obj_1.set("form", "myForm");
+            //cp_obj_1.set("elem_company"  , "companyname"); // optional
+            cp_obj_1.set("elem_house_num", "streetnumber");
+            cp_obj_1.set("elem_street1", "address1");
+            cp_obj_1.set("elem_street2", "address2"); // optional, but highly recommended
+            //cp_obj_1.set("elem_street3"  , "address3"); // optional
+            cp_obj_1.set("elem_town", "town");
+            cp_obj_1.set("elem_county", "county"); // optional
+            cp_obj_1.set("elem_postcode", "postcode");
+            //cp_obj_1.set("elem_udprn"    , "udprn"); // optional
+            cp_obj_1.set("single_res_autoselect", 1); // dont show a drop down box if only one matching address is found
+
+            // house name/num search setup
+            //cp_obj_1.set("elem_search_house" , "streetnumber");
+
+            cp_obj_1.set("on_result_ready", sampleFunc);
+            cp_obj_1.set("on_result_selected", sampleFunc2);
+            cp_obj_1.set("on_error", sampleFunc);
+
+            cp_obj_1.set("single_res_notice", ""); // set this to get rid of the ---- address found, see below ---- message
+
+
+            function sampleFunc() {
+                if (!$('#crafty_postcode_result_display_1').is(':empty')) {
+                    $('#crafty_postcode_result_display_1').addClass("marginTop15");
+                }
+
+                if ($("#address2").val() == '' && $("#town").val() != '') {
+                    $("#address2").val($("#town").val());
+                }
+            }
+
+            function sampleFunc2() {
+                if ($("#address2").val() == '' && $("#town").val() != '') {
+                    $("#address2").val($("#town").val());
+                }
+                var scope = angular.element($("#myForm")).scope();
+                scope.$apply(function() {
+                    scope.client.house_number = $("#streetnumber").val();
+                    scope.client.address_line1 = $("#address1").val();
+                    scope.client.address_line2 = $("#address2").val();
+                    scope.client.county = $("#county").val();
+                    scope.client.address = $("#streetnumber").val() + ' ' + $("#address1").val() + ', ' + $("#address2").val() + ', ' + $("#county").val() + ', ' + $("#postcode").val() + ', UK';
+                });
+            }
+      </script>
         <title>Appy Cab</title>
     </head>
     <body>
