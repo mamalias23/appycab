@@ -1324,7 +1324,7 @@
 				localStorageService.set('email', data.email);
 				localStorageService.set('mobile', data.mobile);
 				localStorageService.set('address', data.address);
-				localStorageService.set('postcode',data.address);
+				localStorageService.set('postcode',data.postcode);
 				localStorageService.set('house_number',data.house_number);
 				localStorageService.set('address_line1',data.address_line1);
 				localStorageService.set('address_line2',data.address_line2);
