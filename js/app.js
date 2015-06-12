@@ -509,6 +509,9 @@
 				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
+			journey.error(function(response) {
+				toaster.pop('error','',response.flash);
+			});
 		}
 
 		$scope.activateNow = function() {
@@ -686,6 +689,9 @@
 				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
 			});
+			journey.error(function(response) {
+				toaster.pop('error','',response.flash);
+			});
 		}
 
 		$scope.activateNow = function() {
@@ -853,6 +859,9 @@
 
 				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
+			});
+			journey.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		}
 
@@ -1022,6 +1031,9 @@
 
 				$rootScope.journey_date_time = $scope.client.pickup_date + ' ' + $scope.client.pickup_time;
 				$location.path('/make-booking');
+			});
+			journey.error(function(response) {
+				toaster.pop('error','',response.flash);
 			});
 		}
 
